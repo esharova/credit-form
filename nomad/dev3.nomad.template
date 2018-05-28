@@ -1,0 +1,100 @@
+job "$PROJECT_NAME-$SUBDOMAIN" {
+  datacenters = ["$DATACENTER"]
+
+  type = "service"
+
+  update {
+    max_parallel = 1
+    stagger = "10s"
+  }
+
+  group "$PROJECT_NAME-$SUBDOMAIN" {
+    count = 1
+
+    restart {
+      mode = "delay"
+      attempts = 3
+      interval = "30s"
+      delay = "10s"
+    }
+
+    task "$PROJECT_NAME-$SUBDOMAIN" {
+      driver = "docker"
+
+      env {
+        APIBASEURL="$API_BASE_URL"
+        BROWSERAPIBASEURL="$BROWSER_API_BASEURL"
+
+        COMMON_ASSETS_BASE_URL="//$SUBDOMAIN.$PROJECT_NAME.dev2.cian.ru/assets/"
+
+        LAYOUT_HEADER_FRAGMENT_BASE_PRIVATE_URL="consul+http://master--frontend-header/"
+        LAYOUT_FOOTER_FRAGMENT_BASE_PRIVATE_URL="consul+http://master--frontend-footer/"
+
+        PROJECT_NAME="$PROJECT_NAME"
+
+        SENTRY_ENVIRONMENT="dev"
+        SENTRY_RELEASE="$IMAGE_TAG"
+
+        TELEMETRYBROWSER_URL="/ajax/stats/"
+        TELEMETRYSERVER_STATSDHOST="10.0.0.113"
+
+        AJAX_LOG_ERROR_BASE_PUBLIC_URL="http://master.dev3.cian.ru/"
+
+        CONSUL_HTTP_ADDR="consul.dev3.cian.ru:80"
+        RUNTIME_HOST="master.runtime-settings.dev3.cian.ru"
+
+        LOGGER_ENVIRONMENT="dev"
+        LOGGER_RELEASE="$IMAGE_TAG"
+        LOGSTASH_NGINX_ACCESS_IP = "$LOGSTASH_NGINX_ACCESS_IP"
+        LOGSTASH_NGINX_ACCESS_PORT = "$LOGSTASH_NGINX_ACCESS_PORT"
+        LOGSTASH_NGINX_ERROR_IP = "$LOGSTASH_NGINX_ERROR_IP"
+        LOGSTASH_NGINX_ERROR_PORT = "$LOGSTASH_NGINX_ERROR_PORT"
+        LOGSTASH_SYSLOG_IP = "$LOGSTASH_SYSLOG_IP"
+        LOGSTASH_SYSLOG_PORT = "$LOGSTASH_SYSLOG_PORT"
+        LOGSTASH_NODEJS_ERROR_IP = "$LOGSTASH_NODEJS_ERROR_IP"
+        LOGSTASH_NODEJS_ERROR_PORT = "$LOGSTASH_NODEJS_ERROR_PORT"
+        LOGSTASH_NODEJS_MESSAGE_IP = "$LOGSTASH_NODEJS_MESSAGE_IP"
+        LOGSTASH_NODEJS_MESSAGE_PORT = "$LOGSTASH_NODEJS_MESSAGE_PORT"
+        MCS_RUN_ENV = "$MCS_RUN_ENV"
+      }
+
+      config {
+        image = "docker-infra.cian.ru/$PROJECT_NAME:$IMAGE_TAG"
+
+        port_map {
+          http = 80
+        }
+
+        auth {
+          username = "$DOCKER_REGISTRY_USERNAME"
+          password = "$DOCKER_REGISTRY_PASSWORD"
+        }
+      }
+
+      service {
+        port = "http"
+        name = "$SUBDOMAIN--$PROJECT_NAME"
+        tags = ["http-dev"]
+
+        check {
+          type = "http"
+          path = "/_/ping/"
+          interval = "5s"
+          timeout = "2s"
+        }
+      }
+
+      resources {
+        cpu = 512
+        memory = 512
+
+        network {
+          mbits = 1
+
+          port "http" {
+          }
+        }
+      }
+    }
+  }
+}

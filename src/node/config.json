@@ -1,0 +1,80 @@
+{
+  "projectName": "credit-application-form-finance-frontend",
+  "server": {
+    "host": "localhost",
+    "port": 8080,
+    "enablePrettyErrorPage": true
+  },
+  "manifest": {
+    "assetsBaseUrl": "/assets/"
+  },
+  "telemetryServer": {
+    "type": "statsd",
+    "statsdHost": "graphite.dev3.cian.ru",
+    "statsdPort": 8125
+  },
+  "telemetryBrowser": {
+    "type": "console",
+    "url": "http://master.dev3.cian.ru/ajax/stats/",
+    "method": "POST"
+  },
+  "sentry": {
+    "enabled": false,
+    "browserDsn": "http://17b7a9fb68d54be585cb9a7c58342412@sentry-front.cian.ru/11",
+    "nodeDsn": "http://17b7a9fb68d54be585cb9a7c58342412@sentry-front.cian.ru/11",
+    "release": "721e41770371db95eee98ca2707686226b993eda",
+    "environment": "test"
+  },
+  "consul": {
+    "config": {
+      "enabled": false,
+      "refreshTime": 1000
+    },
+    "httpAddr": "consul.dev3.cian.ru:80"
+  },
+  "runtime": {
+    "enabled": true,
+    "host": "master.runtime-settings.dev3.cian.ru",
+    "port": 80,
+    "path": "/v1/get-runtime-settings/?runtime=nodejs"
+  },
+  "pingResources": {
+     "timeout": 1000,
+     "resources": [
+       { "host": "95.213.138.121", "port": 80 },
+       { "host": "95.213.152.229", "port": 80 },
+       { "host": "95.213.152.230", "port": 80 }
+     ]
+  },
+  "polyfills": {
+    "baseUrl": "https://cdn.cian.site/frontend/polyfills/"
+  },
+  "ajaxLogError": {
+    "baseUrl": "http://master.dev3.cian.ru/"
+  },
+  "layout": {
+    "headerFragment": {
+      "basePrivateUrl": "consul+http://master--frontend-header/",
+      "cacheRefreshPeriod": 10000
+    },
+    "footerFragment": {
+      "basePrivateUrl": "consul+http://master--frontend-footer/"
+    },
+    "layoutTemplate": {
+      "basePublicUrl": "http://cdn.cian.site/",
+      "refreshPeriod": 10000
+    },
+    "cianAnalyticsApiUrl": "//sopr-api.cian.ru/collect/",
+    "cianAnalyticsFileUrl": "//cdn.cian.site/frontend/ca/l/ca.min.js",
+    "performanceMetricsApiUrl": "/ajax/metrics/",
+    "performanceMetricsFileUrl": "//cdn.cian.site/frontend/metrics/l/metrics.min.js",
+    "commonCSSFileUrl": "//cdn.cian.site/frontend/common-css/l/common.min.css",
+    "gridCSSFileUrl": "//cdn.cian.site/frontend/common-css/l/grid.min.css",
+    "fontsFileUrl": "//cdn.cian.site/frontend/fonts/l/fonts.min.js",
+    "fontsPublicPath": "//cdn.cian.site/frontend/fonts/",
+    "sentryFileUrl": "//cdn.cian.site/frontend/sentry/l/sentry.min.js"
+  },
+  "feature": {
+    "test": true
+  }
+}

@@ -1,0 +1,100 @@
+job "$PROJECT_NAME" {
+  datacenters = ["$DATACENTER"]
+
+  type = "service"
+
+  update {
+    max_parallel = 1
+    stagger = "10s"
+  }
+
+  group "$PROJECT_NAME" {
+    count = $INSTANCES_COUNT
+
+    restart {
+      mode = "delay"
+      attempts = 3
+      interval = "30s"
+      delay = "10s"
+    }
+
+    task "$PROJECT_NAME" {
+      driver = "docker"
+
+      env {
+        APIBASEURL="https://cian.ru/"
+        BROWSERAPIBASEURL="https://cian.ru/"
+
+        COMMON_ASSETS_BASE_URL="//cdn.cian.site/frontend/credit-application-form-finance-frontend/"
+
+        LAYOUT_HEADER_FRAGMENT_BASE_PRIVATE_URL="http://frontend-header.micro.cian.tech/"
+        LAYOUT_FOOTER_FRAGMENT_BASE_PRIVATE_URL="http://frontend-footer.micro.cian.tech/"
+
+        PROJECT_NAME="$PROJECT_NAME"
+
+        SENTRY_ENVIRONMENT="production"
+        SENTRY_RELEASE="$IMAGE_TAG"
+
+        TELEMETRYBROWSER_URL="/ajax/stats/"
+        TELEMETRYSERVER_STATSDHOST="10.0.0.113"
+
+        AJAX_LOG_ERROR_BASE_PUBLIC_URL="https://cian.ru/"
+
+        CONSUL_HTTP_ADDR = "${meta.consul_http_addr}"
+        RUNTIME_HOST="runtime-settings.micro.cian.tech"
+
+        LOGGER_ENVIRONMENT="production"
+        LOGGER_RELEASE="$IMAGE_TAG"
+        LOGSTASH_NGINX_ACCESS_IP = "$LOGSTASH_NGINX_ACCESS_IP"
+        LOGSTASH_NGINX_ACCESS_PORT = "$LOGSTASH_NGINX_ACCESS_PORT"
+        LOGSTASH_NGINX_ERROR_IP = "$LOGSTASH_NGINX_ERROR_IP"
+        LOGSTASH_NGINX_ERROR_PORT = "$LOGSTASH_NGINX_ERROR_PORT"
+        LOGSTASH_SYSLOG_IP = "$LOGSTASH_SYSLOG_IP"
+        LOGSTASH_SYSLOG_PORT = "$LOGSTASH_SYSLOG_PORT"
+        LOGSTASH_NODEJS_ERROR_IP = "$LOGSTASH_NODEJS_ERROR_IP"
+        LOGSTASH_NODEJS_ERROR_PORT = "$LOGSTASH_NODEJS_ERROR_PORT"
+        LOGSTASH_NODEJS_MESSAGE_IP = "$LOGSTASH_NODEJS_MESSAGE_IP"
+        LOGSTASH_NODEJS_MESSAGE_PORT = "$LOGSTASH_NODEJS_MESSAGE_PORT"
+        MCS_RUN_ENV = "$MCS_RUN_ENV"
+      }
+
+      config {
+        image = "docker-infra.cian.ru/$PROJECT_NAME:$IMAGE_TAG"
+
+        port_map {
+          http = 80
+        }
+
+        auth {
+          username = "$DOCKER_REGISTRY_USERNAME"
+          password = "$DOCKER_REGISTRY_PASSWORD"
+        }
+      }
+
+      service {
+        port = "http"
+        name = "$PROJECT_NAME"
+        tags = ["production", "micro.cian.tech"]
+
+        check {
+          type = "http"
+          path = "/_/ping/"
+          interval = "5s"
+          timeout = "2s"
+        }
+      }
+
+      resources {
+        cpu = 4096
+        memory = 2048
+
+        network {
+          mbits = 10
+
+          port "http" {
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,3 @@
+{
+  "extends": "@cian/microservices-dev-tools/lint/ts"
+}

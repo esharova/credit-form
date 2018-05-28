@@ -1,0 +1,35 @@
+{
+  "name": "credit-application-form-finance-frontend",
+  "version": "0.0.0",
+  "scripts": {
+    "lint": "cmdt lint",
+    "start:standalone": "cmdt server",
+    "start:prod": "cmdt prod",
+    "start": "cmdt start",
+    "test": "cmdt test",
+    "precommit": "cmdt precommit",
+    "prepush": "cmdt prepush"
+  },
+  "dependencies": {
+    "@cian/api-models": "^1.0.3",
+    "@cian/config": "^0.2.8",
+    "@cian/http-api": "^1.0.0",
+    "@cian/layout": "^1.4.0",
+    "@cian/microservices-tools": "^12.1.0",
+    "@cian/status-pages": "^0.1.2",
+    "prop-types": "^15.6.1",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0"
+  },
+  "devDependencies": {
+    "@cian/microservices-dev-tools": "^18.2.0",
+    "@types/prop-types": "^15.5.2",
+    "@types/react": "^16.0.41",
+    "@types/react-dom": "^16.0.4",
+    "typescript": "^2.7.2"
+  },
+  "private": true,
+  "jest": {
+    "preset": "@cian/microservices-dev-tools"
+  }
+}

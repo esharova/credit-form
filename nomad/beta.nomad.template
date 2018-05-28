@@ -1,0 +1,106 @@
+job "$PROJECT_NAME-$STAGE_NAME" {
+  datacenters = ["cian-beta"]
+
+  type = "service"
+
+  update {
+    max_parallel = 1
+    stagger = "10s"
+  }
+
+  group "$PROJECT_NAME-$STAGE_NAME" {
+    count = 1
+
+    restart {
+      mode = "delay"
+      attempts = 3
+      interval = "30s"
+      delay = "10s"
+    }
+
+    constraint {
+      attribute = "${meta.beta_ids}"
+      operator = "regexp"
+      value = ";$SERVER_ID;"
+    }
+
+    task "$PROJECT_NAME-$STAGE_NAME" {
+      driver = "docker"
+
+      env {
+        APIBASEURL="https://$STAGE_NAME.stage.cian.ru/"
+        BROWSERAPIBASEURL="https://$STAGE_NAME.stage.cian.ru/"
+
+        PROJECT_NAME="$PROJECT_NAME"
+
+        COMMON_ASSETS_BASE_URL="//cdn.cian.site/frontend/beta/credit-application-form-finance-frontend/$STAGE_NAME/"
+
+        LAYOUT_HEADER_FRAGMENT_BASE_PRIVATE_URL="http://$STAGE_NAME.frontend-header.stage.cian.ru/"
+        LAYOUT_FOOTER_FRAGMENT_BASE_PRIVATE_URL="http://$STAGE_NAME.frontend-footer.stage.cian.ru/"
+
+        SENTRY_ENVIRONMENT="beta"
+        SENTRY_RELEASE="$IMAGE_TAG"
+
+        TELEMETRYBROWSER_URL="/ajax/stats/"
+        TELEMETRYSERVER_STATSDHOST="10.0.0.113"
+
+        AJAX_LOG_ERROR_BASE_PUBLIC_URL="https://$STAGE_NAME.stage.cian.ru/"
+
+        CONSUL_HTTP_ADDR = "${meta.consul_http_addr}"
+        RUNTIME_HOST="$STAGE_NAME.runtime-settings.stage.cian.ru"
+
+        LOGGER_ENVIRONMENT="beta"
+        LOGGER_RELEASE="$IMAGE_TAG"
+        LOGSTASH_NGINX_ACCESS_IP = "$LOGSTASH_NGINX_ACCESS_IP"
+        LOGSTASH_NGINX_ACCESS_PORT = "$LOGSTASH_NGINX_ACCESS_PORT"
+        LOGSTASH_NGINX_ERROR_IP = "$LOGSTASH_NGINX_ERROR_IP"
+        LOGSTASH_NGINX_ERROR_PORT = "$LOGSTASH_NGINX_ERROR_PORT"
+        LOGSTASH_SYSLOG_IP = "$LOGSTASH_SYSLOG_IP"
+        LOGSTASH_SYSLOG_PORT = "$LOGSTASH_SYSLOG_PORT"
+        LOGSTASH_NODEJS_ERROR_IP = "$LOGSTASH_NODEJS_ERROR_IP"
+        LOGSTASH_NODEJS_ERROR_PORT = "$LOGSTASH_NODEJS_ERROR_PORT"
+        LOGSTASH_NODEJS_MESSAGE_IP = "$LOGSTASH_NODEJS_MESSAGE_IP"
+        LOGSTASH_NODEJS_MESSAGE_PORT = "$LOGSTASH_NODEJS_MESSAGE_PORT"
+        MCS_RUN_ENV = "$MCS_RUN_ENV"
+      }
+
+      config {
+        image = "docker-infra.cian.ru/$PROJECT_NAME:$IMAGE_TAG"
+
+        port_map {
+          http = 80
+        }
+
+        auth {
+          username = "$DOCKER_REGISTRY_USERNAME"
+          password = "$DOCKER_REGISTRY_PASSWORD"
+        }
+      }
+
+      service {
+        port = "http"
+        name = "$PROJECT_NAME--$STAGE_NAME"
+        tags = ["beta", "micro.cian.tech"]
+
+        check {
+          type = "http"
+          path = "/_/ping/"
+          interval = "5s"
+          timeout = "2s"
+        }
+      }
+
+      resources {
+        cpu = 512
+        memory = 256
+
+        network {
+          mbits = 1
+
+          port "http" {
+          }
+        }
+      }
+    }
+  }
+}
