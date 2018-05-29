@@ -17,9 +17,13 @@
     "@cian/layout": "^1.4.0",
     "@cian/microservices-tools": "^12.1.0",
     "@cian/status-pages": "^0.1.2",
+    "@material-ui/core": "^1.1.0",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
     "prop-types": "^15.6.1",
     "react": "^16.2.0",
-    "react-dom": "^16.2.0"
+    "react-dom": "^16.2.0",
+    "react-text-mask": "^5.4.1"
   },
   "devDependencies": {
     "@cian/microservices-dev-tools": "^18.2.0",
@@ -30,6 +34,9 @@
   },
   "private": true,
   "jest": {
-    "preset": "@cian/microservices-dev-tools"
+    "preset": "@cian/microservices-dev-tools",
+    "setupFiles": [
+      "<rootDir>/test-setup.js"
+    ]
   }
 }

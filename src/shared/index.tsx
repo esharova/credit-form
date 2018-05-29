@@ -5,6 +5,7 @@ import * as PropTypes from 'prop-types';
 import { Component } from 'react';
 import * as React from 'react';
 import { logComponentError } from './utils/log_component_error';
+import {FirstApplicationPage} from "./components/firstPage";
 
 const style = require('./index.css');
 
@@ -46,13 +47,6 @@ export class App extends Component<IAppProps, object> {
   }
 
   public render() {
-
-    const test = this.props.config && this.props.config.get('feature.test');
-
-    const title = test ? 'Hello World From Space! 🚀' : 'Hello World! 🚀';
-
-    return (
-      <div className={style['test']}>{title}</div>
-    );
+      return <FirstApplicationPage />
   }
 }

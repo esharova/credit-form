@@ -1,12 +1,13 @@
-import * as React from 'react';
-import * as renderer from 'react-test-renderer';
-import { App } from '../index';
+import * as React from "react";
+import {App} from "../index";
+import {shallow} from "enzyme";
+import {FirstApplicationPage} from "../components/firstPage";
 
-test('Renders without crashing', () => {
-  const component = renderer.create(
-    <App />,
-  );
+describe('Micro service for rendering credit application', () => {
 
-  let tree = component.toJSON();
-  expect(tree).toMatchSnapshot();
+
+    it('On first visit first application page should be shown', () => {
+        const wrapper = shallow(<App />);
+        expect(wrapper.find(FirstApplicationPage)).toHaveLength(1);
+    });
 });
