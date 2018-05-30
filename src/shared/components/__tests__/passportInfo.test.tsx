@@ -2,7 +2,7 @@ import * as React from "react";
 import {shallow, mount} from "enzyme";
 import {PassportInfoBlock} from "../passportInfo";
 import {CitizenshipPassportField} from "../passport/citizenship";
-import {SeriesAndNumberField} from "../passport/seriesNumber";
+import SeriesAndNumberField from "../passport/seriesNumber";
 import {IssueDateField} from "../passport/issueDate";
 import {IssueDepartamentField} from "../passport/issueDepartment";
 import {BirthLocationField} from "../passport/birthLocation";
@@ -11,6 +11,14 @@ import {GenderField} from "../passport/gender";
 import CodeInputField from "../passport/codeInput";
 
 describe('Passport info contains fields of Russian Federation Passport', () => {
+    it("passport is in card", () =>{
+        const wrapper = mount(<PassportInfoBlock />);
+        let card = wrapper.find("Card");
+        expect(card).toHaveLength(1);
+        let typography = card.find("Typography[color=\"textSecondary\"]");
+        expect(typography.text()).toBe("Паспорт");
+        expect(typography.prop("style")).toEqual({"margin-bottom": "8px"});
+    });
     it('Passport fields is layouted in grid', () => {
         const wrapper = mount(<PassportInfoBlock />);
         expect(wrapper.find("Grid[container=true]")).toHaveLength(1);

@@ -40,11 +40,11 @@ export default class CodeInputField extends React.Component {
                 flexWrap: 'wrap',
             }}>
                 <FormControl style={{width: "100%"}}>
-                    <InputLabel htmlFor="formatted-text-mask-input">Код подразделения</InputLabel>
+                    <InputLabel htmlFor="code-input">Код подразделения</InputLabel>
                     <Input
                         value={value}
                         onChange={this.setValue}
-                        id="formatted-text-mask-input"
+                        id="code-input"
                         inputComponent={TextMaskCustom}
                     />
                 </FormControl>

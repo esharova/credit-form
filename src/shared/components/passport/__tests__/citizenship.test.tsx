@@ -6,6 +6,7 @@ describe('Citizenship selector', () => {
     it("default view", () => {
         const field = mount(<CitizenshipPassportField/>);
         let formControl = field.find("FormControl");
+        expect(formControl.prop("style")).toEqual({"width": "100%"});
         expect(formControl).toHaveLength(1);
         expect(formControl.find('InputLabel[htmlFor="citizenship"]').text()).toBe("Гражданство");
         expect(formControl.find('Select[id="citizenship"]').prop("value")).toBe("RF");
