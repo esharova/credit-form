@@ -8,7 +8,7 @@
     "start": "cmdt start",
     "test": "cmdt test",
     "precommit": "cmdt precommit",
-    "prepush": "cmdt prepush"
+    "prepush": "cmdt prepushreact-text-mask"
   },
   "dependencies": {
     "@cian/api-models": "^1.0.3",
@@ -23,6 +23,7 @@
     "prop-types": "^15.6.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "react-number-format": "^3.3.4",
     "react-text-mask": "^5.4.1"
   },
   "devDependencies": {
