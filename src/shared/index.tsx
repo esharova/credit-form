@@ -1,52 +1,62 @@
-import { IConfigApi } from '@cian/config/shared';
-import { IHttpApi } from '@cian/http-api/shared/http';
-import { ILogger } from '@cian/microservices-tools/logger/shared';
+import {IConfigApi} from '@cian/config/shared';
+import {IHttpApi} from '@cian/http-api/shared/http';
+import {ILogger} from '@cian/microservices-tools/logger/shared';
 import * as PropTypes from 'prop-types';
-import { Component } from 'react';
+import {Component} from 'react';
 import * as React from 'react';
-import { logComponentError } from './utils/log_component_error';
+import {logComponentError} from './utils/log_component_error';
 import {FirstApplicationPage} from "./components/firstPage";
+import {DadataAddressApi} from "./services/dadataAddressApi";
 
 const style = require('./index.css');
 
 export interface IContext {
-  config: IConfigApi;
-  httpApi: IHttpApi;
-  logger: ILogger;
-  reactErrorLogger: ILogger;
+    config: IConfigApi;
+    httpApi: IHttpApi;
+    logger: ILogger;
+    reactErrorLogger: ILogger;
 }
 
-export interface IAppProps extends IContext {}
+export interface IAppProps extends IContext {
+}
 
 export class App extends Component<IAppProps, object> {
 
-  public context: IContext;
+    public context: IContext;
+    private dadataAddressApi;
 
-  public static childContextTypes = {
-    config: PropTypes.object,
-    httpApi: PropTypes.object,
-    logger: PropTypes.object,
-    reactErrorLogger: PropTypes.object,
-  };
 
-  public getChildContext(): IContext {
-    return {
-      config: this.props.config,
-      httpApi: this.props.httpApi,
-      logger: this.props.logger,
-      reactErrorLogger: this.props.reactErrorLogger,
+    public static childContextTypes = {
+        config: PropTypes.object,
+        httpApi: PropTypes.object,
+        logger: PropTypes.object,
+        reactErrorLogger: PropTypes.object,
     };
-  }
 
-  public componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    logComponentError({
-      error,
-      errorInfo,
-      logger: this.props.reactErrorLogger,
-    });
-  }
+    constructor(props) {
+        super(props);
+        this.dadataAddressApi = new DadataAddressApi();
+    }
 
-  public render() {
-      return <FirstApplicationPage />
-  }
+    public getChildContext(): IContext {
+        return {
+            config: this.props.config,
+            httpApi: this.props.httpApi,
+            logger: this.props.logger,
+            reactErrorLogger: this.props.reactErrorLogger,
+        };
+    }
+
+    public componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+        logComponentError({
+            error,
+            errorInfo,
+            logger: this.props.reactErrorLogger,
+        });
+    }
+
+    public render() {
+
+        return <FirstApplicationPage dadataAddressApi={this.dadataAddressApi}/>
+    }
 }

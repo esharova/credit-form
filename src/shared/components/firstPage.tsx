@@ -5,9 +5,10 @@ import LivingAddressBlock from "./livingAddress";
 export class FirstApplicationPage extends React.Component {
 
     public render() {
+
         return <div>
             <PassportInfoBlock/>
-            <LivingAddressBlock/>
+            <LivingAddressBlock dadataAddressApi={this.props.dadataAddressApi}/>
         </div>;
     }
 }

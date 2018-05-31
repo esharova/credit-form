@@ -53,6 +53,9 @@
     "baseUrl": "http://master.dev3.cian.ru/"
   },
   "layout": {
+    "daData": {
+      "basePublicUrl": "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest"
+    },
     "headerFragment": {
       "basePrivateUrl": "consul+http://master--frontend-header/",
       "cacheRefreshPeriod": 10000

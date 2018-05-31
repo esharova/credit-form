@@ -16,12 +16,12 @@ export default class LivingAddressBlock extends React.Component {
 
     render(): React.ReactNode {
         const additionalField = this.state.value ? "" :
-            <Grid item xs={12}> <AddressField label="Адрес проживания"/></Grid>;
+            <Grid item xs={12}> <AddressField dadataAddressApi={this.props.dadataAddressApi}  label="Адрес проживания"/></Grid>;
         return <Card className={style['credit-application-container']}>
             <CardContent>
                 <Grid container spacing={8}>
                     <Grid item xs={12}>
-                        <AddressField label="Адрес регистрации"/>
+                        <AddressField dadataAddressApi={this.props.dadataAddressApi} label="Адрес регистрации"/>
                     </Grid>
                     <Grid item xs={12}>
                         <FormControlLabel label="Фактический адрес совпадает с адресом регистрации"

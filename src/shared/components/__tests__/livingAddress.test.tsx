@@ -1,28 +1,35 @@
 import * as React from "react";
 import LivingAddressBlock from "../livingAddress";
 import {mount} from "enzyme";
+import {DadataAddressApi} from "../../services/dadataAddressApi";
 
 describe("Living addresss is used for input address of registration and real address in case of it's different", () => {
     it("Initial view", () => {
-        const w = mount(<LivingAddressBlock/>);
-        expect(w.find("AddressField")).toHaveLength(1);
+        const fakeApi = {};
+        const w = mount(<LivingAddressBlock dadataAddressApi={fakeApi}/>);
+        let addressField = w.find("AddressField[label=\"Адрес регистрации\"]");
+        expect(addressField).toHaveLength(1);
+        expect(addressField.prop("dadataAddressApi")).toBe(fakeApi);
         let checkBox = w.find("FormControlLabel[label=\"Фактический адрес совпадает с адресом регистрации\"]");
         expect(checkBox).toHaveLength(1);
         expect(checkBox.find("input[type=\"checkbox\"]").prop("checked")).toBe(true);
     });
 
     it("When checkbox is clicked show real address field", () => {
-        const w = mount(<LivingAddressBlock/>);
+        const fakeApi = {};
+        const w = mount(<LivingAddressBlock  dadataAddressApi={fakeApi}/>);
         const checkBox = w.find("FormControlLabel[label=\"Фактический адрес совпадает с адресом регистрации\"]");
         const checkboxInput = checkBox.find('input[type="checkbox"]');
         checkboxInput.instance().checked = false;
         checkboxInput.simulate("change");
         expect(checkboxInput.instance()).toHaveProperty("checked", false);
-        expect(w.find("AddressField")).toHaveLength(2);
+        let actualAddress = w.find("AddressField[label=\"Адрес проживания\"]");
+        expect(actualAddress).toHaveLength(1);
+        expect(actualAddress.prop("dadataAddressApi")).toBe(fakeApi);
     });
 
     it("Address is in card", () => {
-        const w = mount(<LivingAddressBlock/>);
+        const w = mount(<LivingAddressBlock />);
         let card = w.find("Card");
         expect(card).toHaveLength(1);
         let content = card.find("CardContent");

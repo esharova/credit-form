@@ -8,8 +8,11 @@ describe('First page of application contains passport and basic addresses', () =
 
 
     it('On first page shouild be one passport info block', () => {
-        const wrapper = shallow(<FirstApplicationPage/>);
+        const fakeApi = {};
+        const wrapper = shallow(<FirstApplicationPage dadataAddressApi={fakeApi}/>);
         expect(wrapper.find(PassportInfoBlock)).toHaveLength(1);
-        expect(wrapper.find(LivingAddressBlock)).toHaveLength(1);
+        let livingAddress = wrapper.find(LivingAddressBlock);
+        expect(livingAddress).toHaveLength(1);
+        expect(livingAddress.prop("dadataAddressApi")).toBe(fakeApi);
     });
 });

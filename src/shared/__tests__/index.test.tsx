@@ -7,7 +7,10 @@ describe('Micro service for rendering credit application', () => {
 
 
     it('On first visit first application page should be shown', () => {
-        const wrapper = shallow(<App />);
-        expect(wrapper.find(FirstApplicationPage)).toHaveLength(1);
+        const fakeApi = {};
+        const wrapper = shallow(<App/>);
+        let applicationPage = wrapper.find(FirstApplicationPage);
+        expect(applicationPage).toHaveLength(1);
+        expect(applicationPage.prop("dadataAddressApi")).toBeDefined();
     });
 });
