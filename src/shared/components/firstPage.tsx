@@ -1,9 +1,13 @@
 import * as React from 'react';
 import {PassportInfoBlock} from "./passportInfo";
+import LivingAddressBlock from "./livingAddress";
 
 export class FirstApplicationPage extends React.Component {
 
     public render() {
-        return <PassportInfoBlock />;
+        return <div>
+            <PassportInfoBlock/>
+            <LivingAddressBlock/>
+        </div>;
     }
 }
