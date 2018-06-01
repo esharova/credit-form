@@ -2,8 +2,6 @@ import * as React from "react";
 import {Card, CardContent, Checkbox, FormControlLabel, Grid} from "@material-ui/core";
 import AddressField from "./address/address";
 
-const style = require("../index.css");
-
 
 export default class LivingAddressBlock extends React.Component {
     state = {
@@ -16,8 +14,14 @@ export default class LivingAddressBlock extends React.Component {
 
     render(): React.ReactNode {
         const additionalField = this.state.value ? "" :
-            <Grid item xs={12}> <AddressField dadataAddressApi={this.props.dadataAddressApi}  label="Адрес проживания"/></Grid>;
-        return <Card className={style['credit-application-container']}>
+            <Grid item xs={12}> <AddressField dadataAddressApi={this.props.dadataAddressApi} label="Адрес проживания"/></Grid>;
+        return <Card style={{
+                padding: '15px',
+                width: '800px',
+                margin: 'auto',
+                marginTop: '3em'
+            }}
+        >
             <CardContent>
                 <Grid container spacing={8}>
                     <Grid item xs={12}>

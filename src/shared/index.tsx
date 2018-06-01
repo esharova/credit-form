@@ -8,7 +8,6 @@ import {logComponentError} from './utils/log_component_error';
 import {FirstApplicationPage} from "./components/firstPage";
 import {DadataAddressApi} from "./services/dadataAddressApi";
 
-const style = require('./index.css');
 
 export interface IContext {
     config: IConfigApi;
@@ -57,6 +56,10 @@ export class App extends Component<IAppProps, object> {
 
     public render() {
 
-        return <FirstApplicationPage dadataAddressApi={this.dadataAddressApi}/>
+        return (
+            <FirstApplicationPage
+                dadataAddressApi={this.dadataAddressApi}
+            />
+        );
     }
 }
