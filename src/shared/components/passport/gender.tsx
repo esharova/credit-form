@@ -15,7 +15,7 @@ export class GenderField extends React.Component {
     render(): React.ReactNode {
         return <FormControl style={{width: "100%"}}>
             <InputLabel htmlFor="gender">Пол</InputLabel>
-            <Select id="gender" value={this.state.value} onChange={this.setValue}>
+            <Select id="gender-select" value={this.state.value} onChange={this.setValue}>
                 <MenuItem value="MALE">Мужской</MenuItem>
                 <MenuItem value="FEMALE">Женский</MenuItem>
             </Select>
