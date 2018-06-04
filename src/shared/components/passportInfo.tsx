@@ -19,7 +19,7 @@ export class PassportInfoBlock extends Component {
             <CardContent>
                 <Typography style={{"margin-bottom": "8px"}} variant="headline" color="textSecondary">Паспорт</Typography>
                 <Grid container spacing={8}>
-                    <Grid item xs={12}>
+                    <Grid item xs={12} id="citizenship-field">
                         <CitizenshipPassportField/>
                     </Grid>
                     <Grid item xs={6}>
@@ -37,7 +37,7 @@ export class PassportInfoBlock extends Component {
                     <Grid item xs={4}>
                         <BirthDateField/>
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={4} id="gender-field">
                         <GenderField/>
                     </Grid>
                     <Grid item xs={4}>
