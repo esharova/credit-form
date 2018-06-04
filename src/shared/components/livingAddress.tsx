@@ -27,7 +27,7 @@ export default class LivingAddressBlock extends React.Component {
                     <Grid item xs={12}>
                         <AddressField uniqueId="1" dadataAddressApi={this.props.dadataAddressApi} label="Адрес регистрации"/>
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid item xs={12} id="address-checkbox-field">
                         <FormControlLabel label="Фактический адрес совпадает с адресом регистрации"
                                           control={<Checkbox id="address-checkbox" value="value" checked={this.state.value}
                                                              onChange={this.handleChange('value')}/>}/>
