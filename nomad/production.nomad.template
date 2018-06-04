@@ -75,13 +75,6 @@ job "$PROJECT_NAME" {
         port = "http"
         name = "$PROJECT_NAME"
         tags = ["production", "micro.cian.tech"]
-
-        check {
-          type = "http"
-          path = "/_/ping/"
-          interval = "5s"
-          timeout = "2s"
-        }
       }
 
       resources {
