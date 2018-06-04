@@ -75,13 +75,6 @@ job "$PROJECT_NAME-$SUBDOMAIN" {
         port = "http"
         name = "$SUBDOMAIN--$PROJECT_NAME"
         tags = ["http-dev"]
-
-        check {
-          type = "http"
-          path = "/_/ping/"
-          interval = "5s"
-          timeout = "2s"
-        }
       }
 
       resources {
