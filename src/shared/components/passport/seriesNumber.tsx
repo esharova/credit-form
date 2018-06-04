@@ -1,10 +1,10 @@
+import FormControl from '@material-ui/core/FormControl';
+import Input, { InputProps } from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
 import * as React from 'react';
 import MaskedInput from 'react-text-mask';
-import FormControl from '@material-ui/core/FormControl';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
 
-function TextMaskCustom(props) {
+function TextMaskCustom(props: InputProps) {
     const { inputRef, ...other } = props;
 
     return (
@@ -17,26 +17,25 @@ function TextMaskCustom(props) {
     );
 }
 
-
 export class SeriesAndNumberField extends React.Component {
-    state = {
-        value: ''
+    public state = {
+        value: '',
     };
 
-    setValue = event => {
+    public setValue = event => {
         this.setState({
             value: event.target.value,
         });
-    };
+    }
 
-    render() {
+    public render() {
         return (
             <div style={{
-                width: "100%",
                 display: 'flex',
                 flexWrap: 'wrap',
+                width: '100%',
             }}>
-                <FormControl style={{width: "100%"}}>
+                <FormControl style={{width: '100%'}}>
                     <InputLabel htmlFor="series-and-number-input">Серия и номер</InputLabel>
                     <Input
                         value={this.state.value}

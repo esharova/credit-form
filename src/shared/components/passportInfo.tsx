@@ -4,12 +4,11 @@ import { Component } from 'react';
 import { BirthDateField } from './passport/birthDate';
 import { BirthLocationField } from './passport/birthLocation';
 import { CitizenshipPassportField } from './passport/citizenship';
-import { CodeInputField } from './passport/codeInput'
-import { IssueDateField } from './passport/issueDate';
+import { CodeInputField } from './passport/codeInput';
 import { GenderField } from './passport/gender';
+import { IssueDateField } from './passport/issueDate';
 import { IssueDepartamentField } from './passport/issueDepartment';
 import { SeriesAndNumberField } from './passport/seriesNumber';
-
 
 export class PassportInfoBlock extends Component {
 
@@ -17,10 +16,10 @@ export class PassportInfoBlock extends Component {
         return (
             <Card
                 style={{
-                    padding: '15px',
-                    width: '800px',
                     margin: 'auto',
                     marginTop: '3em',
+                    padding: '15px',
+                    width: '800px',
                 }}
             >
                 <CardContent>
@@ -54,6 +53,6 @@ export class PassportInfoBlock extends Component {
                     </Grid>
                 </CardContent>
             </Card>
-        )
+        );
     }
 }

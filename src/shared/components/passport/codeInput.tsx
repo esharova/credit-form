@@ -1,11 +1,11 @@
+import FormControl from '@material-ui/core/FormControl';
+import Input from '@material-ui/core/Input';
+import { InputProps } from '@material-ui/core/Input/Input';
+import InputLabel from '@material-ui/core/InputLabel';
 import * as React from 'react';
 import MaskedInput from 'react-text-mask';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
 
-
-function TextMaskCustom(props) {
+function TextMaskCustom(props: InputProps) {
     const { inputRef, ...other } = props;
 
     return (
@@ -18,34 +18,33 @@ function TextMaskCustom(props) {
     );
 }
 
-
 export class CodeInputField extends React.Component {
-    state = {
-        value: ''
+    public state = {
+        value: '',
     };
 
-    setValue = event => {
+    public setValue = event => {
         this.setState({
             value: event.target.value,
         });
-    };
+    }
 
-    render() {
+    public render() {
         const { value } = this.state;
 
         return (
             <div style={{
-                width: "100%",
                 display: 'flex',
                 flexWrap: 'wrap',
+                width: '100%',
             }}>
-                <FormControl style={{width: "100%"}}>
+                <FormControl style={{width: '100%'}}>
                     <InputLabel htmlFor="code-input">Код подразделения</InputLabel>
                     <Input
-                        value={value}
-                        onChange={this.setValue}
                         id="code-input"
                         inputComponent={TextMaskCustom}
+                        onChange={this.setValue}
+                        value={value}
                     />
                 </FormControl>
             </div>
