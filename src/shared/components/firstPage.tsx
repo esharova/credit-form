@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { PassportInfoBlock } from "./passportInfo";
-import { LivingAddressBlock } from "./livingAddress";
+import { LivingAddressBlock } from './livingAddress';
+import { PassportInfoBlock } from './passportInfo';
 
 export class FirstApplicationPage extends React.Component {
 

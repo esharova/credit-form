@@ -19,7 +19,7 @@ function TextMaskCustom(props) {
 }
 
 
-export default class CodeInputField extends React.Component {
+export class CodeInputField extends React.Component {
     state = {
         value: ''
     };

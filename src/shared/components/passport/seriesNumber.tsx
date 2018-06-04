@@ -1,8 +1,8 @@
 import * as React from 'react';
 import MaskedInput from 'react-text-mask';
+import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
 
 function TextMaskCustom(props) {
     const { inputRef, ...other } = props;
@@ -18,7 +18,7 @@ function TextMaskCustom(props) {
 }
 
 
-export default class SeriesAndNumberField extends React.Component {
+export class SeriesAndNumberField extends React.Component {
     state = {
         value: ''
     };
