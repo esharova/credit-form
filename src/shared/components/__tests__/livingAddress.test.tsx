@@ -1,5 +1,5 @@
 import * as React from "react";
-import LivingAddressBlock from "../livingAddress";
+import {LivingAddressBlock} from "../livingAddress";
 import {mount} from "enzyme";
 import {DadataAddressApi} from "../../services/dadataAddressApi";
 

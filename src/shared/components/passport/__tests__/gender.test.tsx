@@ -1,4 +1,3 @@
-import {CitizenshipPassportField} from "../citizenship";
 import * as React from "react";
 import {mount} from "enzyme";
 import {GenderField} from "../gender";
@@ -10,7 +9,7 @@ describe('Gender selector', () => {
         expect(formControl.prop("style")).toEqual({"width": "100%"});
         expect(formControl).toHaveLength(1);
         expect(formControl.find('InputLabel[htmlFor="gender"]').text()).toBe("Пол");
-        expect(formControl.find('Select[id="gender"]').prop("value")).toBe("MALE");
+        expect(formControl.find('Select[id="gender-select"]').prop("value")).toBe("MALE");
     });
 
     it("Show all available items", () => {

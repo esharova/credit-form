@@ -1,8 +1,8 @@
 import * as React from "react";
-import {shallow} from "enzyme";
-import {FirstApplicationPage} from "../firstPage";
-import {PassportInfoBlock} from "../passportInfo";
-import LivingAddressBlock from "../livingAddress";
+import { shallow } from "enzyme";
+import { FirstApplicationPage } from "../firstPage";
+import { PassportInfoBlock } from "../passportInfo";
+import { LivingAddressBlock } from "../livingAddress";
 
 describe('First page of application contains passport and basic addresses', () => {
 

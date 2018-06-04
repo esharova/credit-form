@@ -1,48 +1,50 @@
+import MenuItem from '@material-ui/core/MenuItem/MenuItem';
+import Paper from '@material-ui/core/Paper';
+import TextField from '@material-ui/core/TextField';
+import Downshift from 'downshift';
 import * as React from 'react';
-import {MenuItem, Paper, TextField} from "@material-ui/core";
-import Downshift from "downshift";
 
-class AddressField extends React.Component {
-    state = {
-        suggestions: []
+export class AddressField extends React.Component {
+    public state = {
+        suggestions: [],
     };
 
-    render() {
-        return <Downshift style={{width: "100%"}}>
+    public render() {
+        return <Downshift style={{width: '100%'}}>
             {
                 ({getInputProps, getItemProps, isOpen, inputValue}) => {
-                    if (inputValue)
+                    if (inputValue) {
                         this.props.dadataAddressApi.getSuggestions(inputValue, (addresses) => {
-                            this.setState({suggestions: addresses})
+                            this.setState({suggestions: addresses});
                         });
-                    else if (this.state.suggestions.length > 0)
+                    } else if (this.state.suggestions.length > 0) {
                         this.setState({suggestions: []});
+                    }
                     let haveSuggestions = this.state.suggestions.length;
-                    console.log(this.state.suggestions);
+
                     return <div>
-                        <TextField style={{width: "100%"}}
+                        <TextField label={this.props.label}
+                                   style={{width: '100%'}}
                                    InputProps={getInputProps({
+                                       id: 'address-input-' + this.props.uniqueId,
                                        placeholder: 'Начните вводить адрес и выберите из списка',
-                                       id: 'address-input-'+this.props.uniqueId,
                                    })}/>
                         {isOpen && haveSuggestions > 0 ? (
-                            <Paper style={{width: "100%"}} square>
+                            <Paper style={{width: '100%'}} square>
                                 {
                                     this.state.suggestions.map((suggestion, index) =>
                                         (<MenuItem
                                             key={suggestion}
                                             component="div"
                                             {...getItemProps({item: suggestion})}
-                                        >{suggestion}</MenuItem>)
+                                        >{suggestion}</MenuItem>),
                                     )
                                 }
                             </Paper>
                         ) : null}
-                    </div>
+                    </div>;
                 }
             }
-        </Downshift>
+        </Downshift>;
     }
 }
-
-export default AddressField;
