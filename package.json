@@ -7,8 +7,7 @@
     "start:prod": "cmdt prod",
     "start": "cmdt start",
     "test": "cmdt test",
-    "precommit": "cmdt precommit",
-    "prepush": "cmdt prepushreact-text-mask"
+    "precommit": "cmdt precommit"
   },
   "dependencies": {
     "@cian/api-models": "^1.0.3",
