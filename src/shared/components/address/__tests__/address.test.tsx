@@ -6,6 +6,6 @@ describe('Field for input addresses', () => {
     it('initial view', () => {
         const w = mount(<AddressField label="LABEL"/>);
         expect(w.find('TextField[label=\"LABEL\"]')).toHaveLength(1);
-        expect(w.find('Downshift').prop('style')).toEqual({width: '100%'});
+        expect(w.find('div').at(0).prop('style')).toEqual({width: '100%'});
     });
 });
