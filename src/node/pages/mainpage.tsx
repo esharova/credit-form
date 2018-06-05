@@ -2,7 +2,7 @@ import { createClientConfig, IClientConfig } from '@cian/config/node';
 import { Page } from '@cian/layout';
 import { IExpressRequestLikeObject } from '@cian/logger/lib/node/request_logger';
 import { renderScriptAssets, renderStyleAssets } from '@cian/microservices-tools/manifest/node';
-import { createGenerateClassName, MuiThemeProvider } from '@material-ui/core/styles';
+import { createGenerateClassName, createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import { Request } from 'express';
 import * as React from 'react';
 import { renderToString } from 'react-dom/server';
@@ -92,7 +92,7 @@ export function mainpage(appContext: IAppContext) {
 
             const html = renderToString(
                 <JssProvider registry={sheetsRegistry} generateClassName={generateClassName}>
-                    <MuiThemeProvider sheetsManager={new Map()}>
+                    <MuiThemeProvider theme={ createMuiTheme() }>
                         <App
                             httpApi={httpApi}
                             config={config}
