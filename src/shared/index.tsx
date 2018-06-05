@@ -1,13 +1,12 @@
-import {IConfigApi} from '@cian/config/shared';
-import {IHttpApi} from '@cian/http-api/shared/http';
-import {ILogger} from '@cian/microservices-tools/logger/shared';
+import { IConfigApi } from '@cian/config/shared';
+import { IHttpApi } from '@cian/http-api/shared/http';
+import { ILogger } from '@cian/microservices-tools/logger/shared';
 import * as PropTypes from 'prop-types';
-import {Component} from 'react';
+import { Component } from 'react';
 import * as React from 'react';
-import {logComponentError} from './utils/log_component_error';
-import {FirstApplicationPage} from "./components/firstPage";
-import {DadataAddressApi} from "./services/dadataAddressApi";
-
+import { FirstApplicationPage } from './components/firstPage';
+import { DadataAddressApi } from './services/dadataAddressApi';
+import { logComponentError } from './utils/log_component_error';
 
 export interface IContext {
     config: IConfigApi;
@@ -24,7 +23,6 @@ export class App extends Component<IAppProps, object> {
     public context: IContext;
     private dadataAddressApi;
 
-
     public static childContextTypes = {
         config: PropTypes.object,
         httpApi: PropTypes.object,
@@ -32,7 +30,7 @@ export class App extends Component<IAppProps, object> {
         reactErrorLogger: PropTypes.object,
     };
 
-    constructor(props) {
+    public constructor(props: IAppProps) {
         super(props);
         this.dadataAddressApi = new DadataAddressApi();
     }

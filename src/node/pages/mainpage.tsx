@@ -2,12 +2,12 @@ import { createClientConfig, IClientConfig } from '@cian/config/node';
 import { Page } from '@cian/layout';
 import { IExpressRequestLikeObject } from '@cian/logger/lib/node/request_logger';
 import { renderScriptAssets, renderStyleAssets } from '@cian/microservices-tools/manifest/node';
+import { createGenerateClassName, MuiThemeProvider } from '@material-ui/core/styles';
 import { Request } from 'express';
 import * as React from 'react';
 import { renderToString } from 'react-dom/server';
 import { SheetsRegistry } from 'react-jss/lib/jss';
 import JssProvider from 'react-jss/lib/JssProvider';
-import { MuiThemeProvider, createMuiTheme, createGenerateClassName } from '@material-ui/core/styles';
 
 import { App } from '../../shared/index';
 import { IAppContext } from './index';
@@ -100,7 +100,7 @@ export function mainpage(appContext: IAppContext) {
                             reactErrorLogger={logger}
                         />
                     </MuiThemeProvider>
-                </JssProvider>
+                </JssProvider>,
             );
             // Render the component to a string.
             const css = sheetsRegistry.toString();
@@ -122,7 +122,6 @@ export function mainpage(appContext: IAppContext) {
             page.writeBody(`<div id="credit-application-form-finance-frontend" style="flex: 1 1 auto;">${html}</div>`);
 
             page.writeBody(clientConfig.renderToHtml());
-
 
             page.writeBody(renderScriptAssets(manifest, config));
             page.writeFooterBody();
