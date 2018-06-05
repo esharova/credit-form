@@ -1,8 +1,13 @@
 import * as React from 'react';
+import { DadataAddressApi } from '../services/dadataAddressApi';
 import { LivingAddressBlock } from './livingAddress';
 import { PassportInfoBlock } from './passportInfo';
 
-export class FirstApplicationPage extends React.Component {
+interface IProps {
+    dadataAddressApi: DadataAddressApi;
+}
+
+export class FirstApplicationPage extends React.Component<IProps, {}> {
 
     public render() {
 
