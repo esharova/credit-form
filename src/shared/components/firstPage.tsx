@@ -8,7 +8,7 @@ export class FirstApplicationPage extends React.Component {
 
         return <div>
             <PassportInfoBlock/>
-            <LivingAddressBlock dadataAddressApi={this.props.dadataAddressApi}/>
+            <LivingAddressBlock dadataAddressApi={this.props['dadataAddressApi']}/>
         </div>;
     }
 }

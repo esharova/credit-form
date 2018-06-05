@@ -13,7 +13,7 @@ export class LivingAddressBlock extends React.Component {
 
     public render(): React.ReactNode {
         const additionalField = this.state.value ? '' :
-            <Grid item xs={12}> <AddressField uniqueId="2" dadataAddressApi={this.props.dadataAddressApi}
+            <Grid item xs={12}> <AddressField uniqueId="2" dadataAddressApi={this.props['dadataAddressApi']}
                                               label="Адрес проживания"/></Grid>;
 
         return <Card style={{
@@ -26,7 +26,7 @@ export class LivingAddressBlock extends React.Component {
             <CardContent>
                 <Grid container spacing={8}>
                     <Grid item xs={12}>
-                        <AddressField uniqueId="1" dadataAddressApi={this.props.dadataAddressApi}
+                        <AddressField uniqueId="1" dadataAddressApi={this.props['dadataAddressApi']}
                                       label="Адрес регистрации"/>
                     </Grid>
                     <Grid item xs={12} id="address-checkbox-field">
