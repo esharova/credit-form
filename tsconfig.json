@@ -16,7 +16,7 @@
     "sourceMap": true,
     "strictNullChecks": true,
     "target": "es5",
-    "experimentalDecorators": false,
+    "experimentalDecorators": true,
     "downlevelIteration": true
   },
   "include": [

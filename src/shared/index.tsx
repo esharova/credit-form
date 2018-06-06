@@ -4,7 +4,9 @@ import { ILogger } from '@cian/microservices-tools/logger/shared';
 import * as PropTypes from 'prop-types';
 import { Component } from 'react';
 import * as React from 'react';
+import { Provider } from 'react-redux';
 import { FirstApplicationPage } from './components/firstPage';
+import { store } from './reducers';
 import { DadataAddressApi } from './services/dadataAddressApi';
 import { logComponentError } from './utils/log_component_error';
 
@@ -55,9 +57,11 @@ export class App extends Component<IAppProps, object> {
     public render() {
 
         return (
-            <FirstApplicationPage
-                dadataAddressApi={this.dadataAddressApi}
-            />
+            <Provider store={store}>
+                <FirstApplicationPage
+                    dadataAddressApi={this.dadataAddressApi}
+                />
+            </Provider>
         );
     }
 }

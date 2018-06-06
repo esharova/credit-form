@@ -3,7 +3,11 @@ import Input from '@material-ui/core/Input';
 import { InputProps } from '@material-ui/core/Input/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import * as React from 'react';
+import { connect } from 'react-redux';
 import MaskedInput from 'react-text-mask';
+import { ActionCreatorsMapObject, bindActionCreators, Dispatch } from 'redux';
+import { IApplicationState } from '../../reducers';
+import * as actionCreators from '../../reducers/actions';
 
 function TextMaskCustom(props: InputProps) {
     const { inputRef, ...other } = props;
@@ -18,20 +22,23 @@ function TextMaskCustom(props: InputProps) {
     );
 }
 
-export class CodeInputField extends React.Component {
-    public state = {
-        value: '',
-    };
+interface IProps {
+    value?: string;
+    actions?: ActionCreatorsMapObject;
+}
 
-    public setValue = event => {
-        this.setState({
-            value: event.target.value,
-        });
-    }
+function mapStateToProps(state: IApplicationState) {
+    return {value: state.application && state.application.passport && state.application.passport.code || ''};
+}
+
+function mapDispatchToProps(dispatch: Dispatch) {
+    return {actions: bindActionCreators(actionCreators, dispatch)};
+}
+
+@connect(mapStateToProps, mapDispatchToProps)
+export class CodeInputField extends React.Component<IProps,{}> {
 
     public render() {
-        const { value } = this.state;
-
         return (
             <div style={{
                 display: 'flex',
@@ -43,8 +50,8 @@ export class CodeInputField extends React.Component {
                     <Input
                         id="code-input"
                         inputComponent={TextMaskCustom}
-                        onChange={this.setValue}
-                        value={value}
+                        onChange={ e => this.props.actions && this.props.actions.updateCode(e.target.value) }
+                        value={this.props.value}
                     />
                 </FormControl>
             </div>
