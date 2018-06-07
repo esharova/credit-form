@@ -4,14 +4,15 @@ import { connect } from 'react-redux';
 import { ActionCreatorsMapObject, bindActionCreators, Dispatch } from 'redux';
 import { IApplicationState } from '../reducers';
 import * as actionCreators from '../reducers/actions';
+import { BackendApi } from '../services/backendApi';
 import { DadataAddressApi } from '../services/dadataAddressApi';
 import { AddressField } from './address/address';
 
 interface IProps {
     dadataAddressApi: DadataAddressApi;
+    backendApi: BackendApi;
     value?: boolean;
     actions?: ActionCreatorsMapObject;
-
 }
 
 function mapStateToProps(state: IApplicationState) {
