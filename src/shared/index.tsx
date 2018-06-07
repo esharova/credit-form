@@ -61,7 +61,7 @@ export class App extends Component<IAppProps, object> {
         return (
             <Provider store={store}>
                 <FirstApplicationPage
-                    dadataAddressApi={this.dadataAddressApi}
+                    dadataAddressApi={this.dadataAddressApi} backendApi={this.backendApi}
                 />
             </Provider>
         );
