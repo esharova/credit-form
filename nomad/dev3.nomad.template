@@ -25,7 +25,7 @@ job "$PROJECT_NAME-$SUBDOMAIN" {
         APIBASEURL="$API_BASE_URL"
         BROWSERAPIBASEURL="$BROWSER_API_BASEURL"
 
-        COMMON_ASSETS_BASE_URL="//$SUBDOMAIN.$PROJECT_NAME.dev2.cian.ru/assets/"
+        COMMON_ASSETS_BASE_URL="//$SUBDOMAIN.$PROJECT_NAME.dev3.cian.ru/assets/"
 
         LAYOUT_HEADER_FRAGMENT_BASE_PRIVATE_URL="consul+http://master--frontend-header/"
         LAYOUT_FOOTER_FRAGMENT_BASE_PRIVATE_URL="consul+http://master--frontend-footer/"
