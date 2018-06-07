@@ -1,6 +1,6 @@
-import { MenuItem, Paper, TextField } from '@material-ui/core';
+import { MenuItem, Paper, TextField, WithStyles } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-import { StyledComponentProps, StyleRulesCallback } from '@material-ui/core/styles/withStyles';
+import { StyleRulesCallback } from '@material-ui/core/styles/withStyles';
 import * as React from 'react';
 import * as Autosuggest from 'react-autosuggest';
 import { connect } from 'react-redux';
@@ -9,7 +9,7 @@ import { IApplicationState, ILivingAddress } from '../../reducers';
 import * as actionCreators from '../../reducers/actions';
 import { DadataAddressApi } from '../../services/dadataAddressApi';
 
-interface IProps extends StyledComponentProps<string> {
+interface IProps extends WithStyles<string> {
     dadataAddressApi: DadataAddressApi;
     label: string;
     uniqueId: string;

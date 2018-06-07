@@ -9,8 +9,8 @@ import { renderToString } from 'react-dom/server';
 import { SheetsRegistry } from 'react-jss/lib/jss';
 import JssProvider from 'react-jss/lib/JssProvider';
 
-import { App } from '../../shared/index';
-import { IAppContext } from './index';
+import { App } from '../../shared';
+import { IAppContext } from './';
 
 export interface IPageContext {
     clientConfig: IClientConfig;
@@ -50,18 +50,18 @@ export function mainpage(appContext: IAppContext) {
 
             const pageBuilder = pageBuilderFactory.create(req);
 
-            // pageBuilder.enableHeader({
-            //     section: 'index',
-            //     showGeolocation: false,
-            //     showMobileAppBanner: false,
-            //     style: 'adaptive',
-            //     subdomain: 'www',
-            // });
-            //
-            // pageBuilder.enableFooter({
-            //     section: 'index',
-            //     style: 'adaptive',
-            // });
+            pageBuilder.enableHeader({
+                section: 'index',
+                showGeolocation: false,
+                showMobileAppBanner: false,
+                style: 'adaptive',
+                subdomain: 'www',
+            });
+
+            pageBuilder.enableFooter({
+                section: 'index',
+                style: 'adaptive',
+            });
 
             const clientRequest = client.fetch({
                 apiType: 'private',
@@ -113,18 +113,18 @@ export function mainpage(appContext: IAppContext) {
                 profileSessionKey,
             });
 
-            // page.writeHeaderHead();
-            // page.writeHead(renderStyleAssets(manifest, config));
-            // page.writeFooterHead();
+            page.writeHeaderHead();
+            page.writeHead(renderStyleAssets(manifest, config));
+            page.writeFooterHead();
 
-            // page.writeHeaderBody();
+            page.writeHeaderBody();
             page.writeBody(`<style id="jss-server-side">${css}</style>`);
             page.writeBody(`<div id="credit-application-form-finance-frontend" style="flex: 1 1 auto;">${html}</div>`);
 
             page.writeBody(clientConfig.renderToHtml());
 
             page.writeBody(renderScriptAssets(manifest, config));
-            // page.writeFooterBody();
+            page.writeFooterBody();
 
             return page.compile();
         },
