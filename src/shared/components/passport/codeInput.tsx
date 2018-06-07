@@ -36,7 +36,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
 }
 
 @connect(mapStateToProps, mapDispatchToProps)
-export class CodeInputField extends React.Component<IProps,{}> {
+export class CodeInputField extends React.Component<IProps, {}> {
 
     public render() {
         return (

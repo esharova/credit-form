@@ -18,62 +18,62 @@ const schema = createConfigSchema();
 const config = createServerConfig(schema);
 
 config.load()
-  .then((notFoundErrors: string[]) => {
-    configureSentry(config);
+      .then((notFoundErrors: string[]) => {
+          configureSentry(config);
 
-    const logger: ServerLogger = createServerLogger(config);
+          const logger: ServerLogger = createServerLogger(config);
 
-    logger.debug('Config fields are missed:', notFoundErrors);
+          logger.debug('Config fields are missed:', notFoundErrors);
 
-    const profiler = createCpuProfiler(logger);
+          const profiler = createCpuProfiler(logger);
 
-    const telemetryLogger = serverTelemetry(config, profiler.getMonitor());
+          const telemetryLogger = serverTelemetry(config, profiler.getMonitor());
 
-    const httpApi = new HttpApi({
-      config,
-      logger,
-      telemetry: {
-        ...telemetryLogger,
-      },
-    });
+          const httpApi = new HttpApi({
+              config,
+              logger,
+              telemetry: {
+                  ...telemetryLogger,
+              },
+          });
 
-    httpApi.runServiceDiscovery();
+          httpApi.runServiceDiscovery();
 
-    const manifest = createManifest(config);
+          const manifest = createManifest(config);
 
-    const polyfillsService = createPolyfillsService(config, telemetryLogger);
+          const polyfillsService = createPolyfillsService(config, telemetryLogger);
 
-    const pageBuilderFactory = createPageBuilderFactory({ httpApi, config, polyfillsService });
+          const pageBuilderFactory = createPageBuilderFactory({httpApi, config, polyfillsService});
 
-    const statusPagesService = createStatusPagesService(pageBuilderFactory);
+          const statusPagesService = createStatusPagesService(pageBuilderFactory);
 
-    const server = createServer(config, logger, telemetryLogger, statusPagesService, profiler);
+          const server = createServer(config, logger, telemetryLogger, statusPagesService, profiler);
 
-    return Promise.all([
-      logger,
-      httpApi,
-      server,
-      manifest,
-      telemetryLogger,
-      pageBuilderFactory,
-      manifest.load(),
-      polyfillsService.warmup(),
-      statusPagesService.warmup(),
-    ]);
-  })
-  .then(([logger, httpApi, server, manifest, telemetryLogger, pageBuilderFactory]) => {
-    attachPages({
-      config,
-      httpApi,
-      logger,
-      manifest,
-      pageBuilderFactory,
-      server,
-      telemetryLogger,
-    });
+          return Promise.all([
+              logger,
+              httpApi,
+              server,
+              manifest,
+              telemetryLogger,
+              pageBuilderFactory,
+              manifest.load(),
+              polyfillsService.warmup(),
+              statusPagesService.warmup(),
+          ]);
+      })
+      .then(([logger, httpApi, server, manifest, telemetryLogger, pageBuilderFactory]) => {
+          attachPages({
+              config,
+              httpApi,
+              logger,
+              manifest,
+              pageBuilderFactory,
+              server,
+              telemetryLogger,
+          });
 
-    server.start();
-  })
-  .catch((error: Error) => {
-    throw new Error(error.toString());
-  });
+          server.start();
+      })
+      .catch((error: Error) => {
+          throw new Error(error.toString());
+      });

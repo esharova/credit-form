@@ -1,61 +1,156 @@
-import MenuItem from '@material-ui/core/MenuItem/MenuItem';
-import Paper from '@material-ui/core/Paper';
-import TextField from '@material-ui/core/TextField';
-import Downshift from 'downshift';
+import { MenuItem, Paper, TextField } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
+import { StyledComponentProps, StyleRulesCallback } from '@material-ui/core/styles/withStyles';
 import * as React from 'react';
+import * as Autosuggest from 'react-autosuggest';
+import { connect } from 'react-redux';
+import { ActionCreatorsMapObject, bindActionCreators, Dispatch } from 'redux';
+import { IApplicationState, ILivingAddress } from '../../reducers';
+import * as actionCreators from '../../reducers/actions';
 import { DadataAddressApi } from '../../services/dadataAddressApi';
 
-interface IProps {
+interface IProps extends StyledComponentProps<string> {
     dadataAddressApi: DadataAddressApi;
     label: string;
     uniqueId: string;
+    addressField: string;
+    value?: ILivingAddress;
+    actions?: ActionCreatorsMapObject;
 }
 
-export class AddressField extends React.Component<IProps, {}> {
+function mapStateToProps(state: IApplicationState) {
+    return {value: state.application && state.application.address || {}};
+}
+
+function mapDispatchToProps(dispatch: Dispatch) {
+    return {actions: bindActionCreators(actionCreators, dispatch)};
+}
+
+const styles: StyleRulesCallback = theme => ({
+    container: {
+        flexGrow: 1,
+        position: 'relative',
+    },
+    suggestion: {
+        display: 'block',
+    },
+    suggestionsContainerOpen: {
+        left: 0,
+        marginTop: theme.spacing.unit,
+        position: 'absolute',
+        right: 0,
+        zIndex: 1,
+    },
+    suggestionsList: {
+        listStyleType: 'none',
+        margin: '2px',
+        padding: '2px',
+    },
+});
+
+@connect(mapStateToProps, mapDispatchToProps)
+class AddressFieldInternal extends React.Component<IProps, {}> {
     public state = {
         suggestions: [],
+        value: '',
     };
 
-    public render() {
-        return (
-            <div style={{width: '100%'}}>
-                <Downshift>
-                    {
-                        ({getInputProps, getItemProps, isOpen, inputValue}) => {
-                            if (inputValue) {
-                                this.props.dadataAddressApi.getSuggestions(inputValue, (addresses) => {
-                                    this.setState({suggestions: addresses});
-                                });
-                            } else if (this.state.suggestions.length > 0) {
-                                this.setState({suggestions: []});
-                            }
-                            let haveSuggestions = this.state.suggestions.length;
+    public constructor(p: IProps) {
+        super(p);
+        this.state.value = (this.props.value && this.props.value[this.props.addressField] || '');
+    }
 
-                            return <div>
-                                <TextField label={this.props.label}
-                                           style={{width: '100%'}}
-                                           InputProps={getInputProps({
-                                               id: 'address-input-' + this.props.uniqueId,
-                                               placeholder: 'Начните вводить адрес и выберите из списка',
-                                           })}/>
-                                {isOpen && haveSuggestions > 0 ? (
-                                    <Paper style={{width: '100%'}} square>
-                                        {
-                                            this.state.suggestions.map((suggestion, index) =>
-                                                (<MenuItem
-                                                    key={suggestion}
-                                                    component="div"
-                                                    {...getItemProps({item: suggestion})}
-                                                >{suggestion}</MenuItem>),
-                                            )
-                                        }
-                                    </Paper>
-                                ) : null}
-                            </div>;
-                        }
-                    }
-                </Downshift>
-            </div>
+    public renderInput = (inputProps) => {
+        const {classes, ref, ...other} = inputProps;
+
+        return (
+            <TextField
+                label={this.props.label}
+                fullWidth
+                InputProps={{
+                    classes: {
+                        input: classes.input,
+                    },
+                    inputRef: ref,
+                    ...other,
+                }}
+            />
         );
     }
+
+    public handleSuggestionsFetchRequested = ({value}) => {
+        this.props.dadataAddressApi.getSuggestions(value, (v) => {
+            this.setState({suggestions: v});
+        });
+    }
+
+    public handleSuggestionsClearRequested = () => {
+        this.setState({
+            suggestions: [],
+        });
+    }
+
+    public renderSuggestionsContainer = (options) => {
+        const {containerProps, children} = options;
+
+        return (
+            <Paper {...containerProps} square>
+                {children}
+            </Paper>
+        );
+    }
+
+    public getSuggestionValue = (suggestion) => {
+        return suggestion;
+    }
+
+    public renderSuggestion = (suggestion, {query, isHighlighted}) => {
+        return (
+            <MenuItem selected={isHighlighted} component="div">
+                <div>{suggestion}</div>
+            </MenuItem>
+        );
+    }
+
+    public handleChange = (event, {newValue}) => {
+        this.setState({value: newValue});
+        if (this.props.actions) {
+            this.props.actions.updateAddress({
+                field: this.props.addressField,
+                type: 'LIVING_ADDRESS',
+                value: newValue,
+            });
+        }
+    }
+
+    public render() {
+        const classes = this.props.classes || {};
+
+        return <Autosuggest
+            getSuggestionValue={this.getSuggestionValue}
+            inputProps={{
+                classes,
+                onChange: this.handleChange,
+                placeholder: 'Город Улица Дом Квартира',
+                value: this.state.value,
+            }}
+            onSuggestionsClearRequested={this.handleSuggestionsClearRequested}
+            onSuggestionsFetchRequested={this.handleSuggestionsFetchRequested}
+            renderInputComponent={this.renderInput}
+            renderSuggestion={this.renderSuggestion}
+            renderSuggestionsContainer={this.renderSuggestionsContainer}
+            suggestions={this.state.suggestions}
+            theme={{
+                container: classes.container,
+                suggestion: classes.suggestion,
+                suggestionsContainerOpen: classes.suggestionsContainerOpen,
+                suggestionsList: classes.suggestionsList,
+            }}
+        />;
+    }
+
 }
+
+const AddressField = withStyles(styles)(AddressFieldInternal);
+
+export { AddressField };

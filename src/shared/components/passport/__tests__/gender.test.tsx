@@ -1,10 +1,14 @@
 import { mount } from 'enzyme';
 import * as React from 'react';
 import { GenderField } from '../gender';
+import * as configureStore from 'redux-mock-store';
 
 describe('Gender selector', () => {
-    it('default view', () => {
-        const field = mount(<GenderField/>);
+    const mockStore = configureStore();
+
+    it('default view with MALE', () => {
+        const store = mockStore({ application: {passport: {gender: 'MALE'} } });
+        const field = mount(<GenderField store={store}/>);
         let formControl = field.find('FormControl');
         expect(formControl.prop('style')).toEqual({width: '100%'});
         expect(formControl).toHaveLength(1);
@@ -12,8 +16,16 @@ describe('Gender selector', () => {
         expect(formControl.find('Select').prop('value')).toBe('MALE');
     });
 
+    it('default view with FEMALE', () => {
+        const store = mockStore({ application: {passport: {gender: 'FEMALE'} } });
+        const field = mount(<GenderField store={store}/>);
+        let formControl = field.find('FormControl');
+        expect(formControl.find('Select').prop('value')).toBe('FEMALE');
+    });
+
     it('Show all available items', () => {
-        const field = mount(<GenderField/>);
+        const store = mockStore({ application: {passport: {gender: 'MALE'} } });
+        const field = mount(<GenderField store={store}/>);
         field.find('div[role="button"]').simulate('click');
         expect(field.find('li')).toHaveLength(2);
         expect(field.find('li[data-value="MALE"]').text()).toBe('Мужской');
@@ -21,19 +33,12 @@ describe('Gender selector', () => {
     });
 
     it('Select OTHER VALUE', () => {
-        const field = mount(<GenderField/>);
+        const store = mockStore({ application: {passport: {gender: 'MALE'} } });
+        const field = mount(<GenderField store={store}/>);
         let button = field.find('div[role="button"]');
         expect(button.text()).toBe('Мужской');
         button.simulate('click');
         field.find('li[data-value="FEMALE"]').simulate('click');
-        expect(field.find('div[role="button"]').text()).toBe('Женский');
-    });
-    it('Select OTHER VALUE and back', () => {
-        const field = mount(<GenderField/>);
-        field.find('div[role="button"]').simulate('click');
-        field.find('li[data-value="FEMALE"]').simulate('click');
-        field.find('div[role="button"]').simulate('click');
-        field.find('li[data-value="MALE"]').simulate('click');
-        expect(field.find('div[role="button"]').text()).toBe('Мужской');
+        expect(store.getActions()).toEqual([{type: 'GENDER', value: 'FEMALE'}])
     });
 });

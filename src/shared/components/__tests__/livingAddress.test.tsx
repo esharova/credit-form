@@ -1,49 +1,63 @@
 import { mount } from 'enzyme';
 import * as React from 'react';
+import { Provider } from 'react-redux';
+import * as configureStore from 'redux-mock-store';
 import { LivingAddressBlock } from '../livingAddress';
 
 describe('Living addresss is used for input address of registration and real address in case of it\'s different',
     () => {
-    it('Initial view', () => {
-        const fakeApi = {};
-        const w = mount(<LivingAddressBlock dadataAddressApi={fakeApi}/>);
-        let addressField = w.find('AddressField[label=\"Адрес регистрации\"]');
-        expect(addressField).toHaveLength(1);
-        expect(addressField.prop('dadataAddressApi')).toBe(fakeApi);
-        let checkBox = w.find('FormControlLabel[label=\"Фактический адрес совпадает с адресом регистрации\"]');
-        expect(checkBox).toHaveLength(1);
-        expect(checkBox.find('input[type=\"checkbox\"]').prop('checked')).toBe(true);
-    });
+        const mockStore = configureStore();
+        it('Initial view checked', () => {
+            const fakeApi = {};
+            const store = mockStore({
+                application: {
+                    address: {
+                        isRegistrationAddressSameAsActual: true,
+                    },
+                },
+            });
+            const w = mount(<Provider store={store}><LivingAddressBlock dadataAddressApi={fakeApi}/></Provider>);
+            let addressField = w.find('AddressFieldInternal[label=\"Адрес регистрации\"]');
+            expect(addressField).toHaveLength(1);
+            expect(addressField.prop('dadataAddressApi')).toBe(fakeApi);
+            let checkBox = w.find('FormControlLabel[label=\"Фактический адрес совпадает с адресом регистрации\"]');
+            expect(checkBox).toHaveLength(1);
+            expect(checkBox.find('input[type=\"checkbox\"]').prop('checked')).toBe(true);
+        });
+        it('Initial view  unchecked', () => {
+            const fakeApi = {};
+            const store = mockStore({
+                application: {
+                    address: {
+                        isRegistrationAddressSameAsActual: false,
+                    },
+                },
+            });
+            const w = mount(<Provider store={store}><LivingAddressBlock dadataAddressApi={fakeApi}/></Provider>);
+            let addressField = w.find('AddressFieldInternal[label=\"Адрес регистрации\"]');
+            expect(addressField).toHaveLength(1);
+            expect(addressField.prop('dadataAddressApi')).toBe(fakeApi);
+            let checkBox = w.find('FormControlLabel[label=\"Фактический адрес совпадает с адресом регистрации\"]');
+            expect(checkBox).toHaveLength(1);
+            expect(checkBox.find('input[type=\"checkbox\"]').prop('checked')).toBe(false);
+            let actualAddress = w.find('AddressFieldInternal[label=\"Адрес проживания\"]');
+            expect(actualAddress).toHaveLength(1);
+        });
 
-    it('When checkbox is clicked show real address field', () => {
-        const fakeApi = {};
-        const w = mount(<LivingAddressBlock  dadataAddressApi={fakeApi}/>);
-        const checkBox = w.find('FormControlLabel[label=\"Фактический адрес совпадает с адресом регистрации\"]');
-        const checkboxInput = checkBox.find('input[type="checkbox"]');
-        checkboxInput.instance().checked = false;
-        checkboxInput.simulate('change');
-        expect(checkboxInput.instance()).toHaveProperty('checked', false);
-        let actualAddress = w.find('AddressField[label=\"Адрес проживания\"]');
-        expect(actualAddress).toHaveLength(1);
-        expect(actualAddress.prop('dadataAddressApi')).toBe(fakeApi);
+        it('When checkbox is clicked generate action', () => {
+            const fakeApi = {};
+            const store = mockStore({
+                application: {
+                    address: {
+                        isRegistrationAddressSameAsActual: false,
+                    },
+                },
+            });
+            const w = mount(<Provider store={store}><LivingAddressBlock dadataAddressApi={fakeApi}/></Provider>);
+            const checkBox = w.find('FormControlLabel[label=\"Фактический адрес совпадает с адресом регистрации\"]');
+            const checkboxInput = checkBox.find('input[type="checkbox"]');
+            checkboxInput.instance().checked = true;
+            checkboxInput.simulate('change');
+            expect(store.getActions()).toEqual([{type: "LIVING_ADDRESS_SAME", value: true}]);
+        });
     });
-
-    it('Address is in card', () => {
-        const w = mount(<LivingAddressBlock />);
-        let card = w.find('Card');
-        expect(card).toHaveLength(1);
-        let content = card.find('CardContent');
-        expect(content).toHaveLength(1);
-        let gridContainer = content.find('Grid[container=true]');
-        expect(gridContainer).toHaveLength(1);
-        expect(gridContainer.find('Grid[item=true]').find('[xs=12]')).toHaveLength(2);
-
-        // check that after click on checkbox additional address input appeared
-        const checkBox = w.find('FormControlLabel[label=\"Фактический адрес совпадает с адресом регистрации\"]');
-        const checkboxInput = checkBox.find('input[type="checkbox"]');
-        checkboxInput.instance().checked = false;
-        checkboxInput.simulate('change');
-        expect(w.find('Card').find('CardContent').find('Grid[container=true]').find('Grid[item=true]').find('[xs=12]'))
-            .toHaveLength(3);
-    });
-});

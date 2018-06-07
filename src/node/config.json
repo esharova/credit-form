@@ -39,12 +39,21 @@
     "path": "/v1/get-runtime-settings/?runtime=nodejs"
   },
   "pingResources": {
-     "timeout": 1000,
-     "resources": [
-       { "host": "95.213.138.121", "port": 80 },
-       { "host": "95.213.152.229", "port": 80 },
-       { "host": "95.213.152.230", "port": 80 }
-     ]
+    "timeout": 1000,
+    "resources": [
+      {
+        "host": "95.213.138.121",
+        "port": 80
+      },
+      {
+        "host": "95.213.152.229",
+        "port": 80
+      },
+      {
+        "host": "95.213.152.230",
+        "port": 80
+      }
+    ]
   },
   "polyfills": {
     "baseUrl": "https://cdn.cian.site/frontend/polyfills/"

@@ -2,8 +2,8 @@ import { IConfigApi } from '@cian/config/shared';
 import { IHttpApi } from '@cian/http-api/shared/http';
 import { ILogger } from '@cian/microservices-tools/logger/shared';
 import * as PropTypes from 'prop-types';
-import { Component } from 'react';
 import * as React from 'react';
+import { Component } from 'react';
 import { Provider } from 'react-redux';
 import { FirstApplicationPage } from './components/firstPage';
 import { store } from './reducers';
@@ -22,15 +22,14 @@ export interface IAppProps extends IContext {
 
 export class App extends Component<IAppProps, object> {
 
-    public context: IContext;
-    private dadataAddressApi;
-
     public static childContextTypes = {
         config: PropTypes.object,
         httpApi: PropTypes.object,
         logger: PropTypes.object,
         reactErrorLogger: PropTypes.object,
     };
+    public context: IContext;
+    private dadataAddressApi;
 
     public constructor(props: IAppProps) {
         super(props);

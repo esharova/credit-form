@@ -1,25 +1,42 @@
 import { Card, CardContent, Checkbox, FormControlLabel, Grid } from '@material-ui/core';
 import * as React from 'react';
+import { connect } from 'react-redux';
+import { ActionCreatorsMapObject, bindActionCreators, Dispatch } from 'redux';
+import { IApplicationState } from '../reducers';
+import * as actionCreators from '../reducers/actions';
 import { DadataAddressApi } from '../services/dadataAddressApi';
 import { AddressField } from './address/address';
 
 interface IProps {
     dadataAddressApi: DadataAddressApi;
+    value?: boolean;
+    actions?: ActionCreatorsMapObject;
+
 }
 
-export class LivingAddressBlock extends React.Component<IProps, {}> {
-    public state = {
-        value: true,
+function mapStateToProps(state: IApplicationState) {
+    return {
+        value: state.application && state.application.address
+        && state.application.address.isRegistrationAddressSameAsActual || false,
     };
+}
 
-    private handleChange = name => event => {
-        this.setState({[name]: event.target.checked});
+function mapDispatchToProps(dispatch: Dispatch) {
+    return {actions: bindActionCreators(actionCreators, dispatch)};
+}
+
+@connect(mapStateToProps, mapDispatchToProps)
+export class LivingAddressBlock extends React.Component<IProps, {}> {
+    private handleChange = (event, newValue) => {
+        if (this.props.actions) {
+            this.props.actions.updateLivingAddressSame(newValue);
+        }
     }
 
     public render(): React.ReactNode {
-        const additionalField = this.state.value ? '' :
+        const additionalField = this.props.value ? '' :
             <Grid item xs={12}> <AddressField uniqueId="2" dadataAddressApi={this.props.dadataAddressApi}
-                                              label="Адрес проживания"/></Grid>;
+                                              label="Адрес проживания" addressField="actualAddress"/></Grid>;
 
         return <Card style={{
             margin: 'auto',
@@ -32,13 +49,15 @@ export class LivingAddressBlock extends React.Component<IProps, {}> {
                 <Grid container spacing={8}>
                     <Grid item xs={12}>
                         <AddressField uniqueId="1" dadataAddressApi={this.props.dadataAddressApi}
-                                      label="Адрес регистрации"/>
+                                      label="Адрес регистрации" addressField="registrationAddress"/>
                     </Grid>
                     <Grid item xs={12} id="address-checkbox-field">
                         <FormControlLabel label="Фактический адрес совпадает с адресом регистрации"
                                           control={<Checkbox id="address-checkbox" value="value"
-                                                             checked={this.state.value}
-                                                             onChange={this.handleChange('value')}/>}/>
+                                                             checked={this.props.value}
+                                                             onChange={this.handleChange}/>
+                                          }
+                        />
                     </Grid>
                     {additionalField}
                 </Grid>
