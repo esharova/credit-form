@@ -7,6 +7,7 @@ import { Component } from 'react';
 import { Provider } from 'react-redux';
 import { FirstApplicationPage } from './components/firstPage';
 import { store } from './reducers';
+import { BackendApi } from './services/backendApi';
 import { DadataAddressApi } from './services/dadataAddressApi';
 import { logComponentError } from './utils/log_component_error';
 
@@ -29,11 +30,13 @@ export class App extends Component<IAppProps, object> {
         reactErrorLogger: PropTypes.object,
     };
     public context: IContext;
-    private dadataAddressApi;
+    private dadataAddressApi: DadataAddressApi;
+    private backendApi: BackendApi;
 
     public constructor(props: IAppProps) {
         super(props);
         this.dadataAddressApi = new DadataAddressApi();
+        this.backendApi = new BackendApi(store);
     }
 
     public getChildContext(): IContext {

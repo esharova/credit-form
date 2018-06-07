@@ -29,7 +29,8 @@ export function mainpage(appContext: IAppContext) {
     } = appContext;
 
     server.express.get('/', server.createPageHandler({
-        preparePageContext: (req: Request) => {
+        preparePageContext: (req:
+                                 Request) => {
 
             const client = httpApi.attachRequest(req);
 
