@@ -24,6 +24,7 @@ export interface IApplication {
 
 export interface IApplicationState {
     application?: IApplication;
+    applicationId?: string;
 }
 
 const initialState: IApplicationState = {
@@ -89,6 +90,8 @@ export const rootReducer = (state: IApplicationState = initialState, action) => 
         case 'LIVING_ADDRESS_SAME':
             return updateLivingAddress(state, (address: ILivingAddress) =>
                 address.isRegistrationAddressSameAsActual = action.value);
+        case 'APPLICATION_ID':
+            return state = {applicationId: action.value, ...state};
         default:
             return state;
     }

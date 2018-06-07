@@ -1,4 +1,4 @@
-const stringAction = (name: string) => (v: string) => ({type: name, value: v});
+const stringAction = (name: string) => (v?: string) => ({type: name, value: v});
 
 interface IEvent {
     type: string;
@@ -14,5 +14,6 @@ export const updateCode = stringAction('CODE');
 export const updateSeriesNumber = stringAction('SERIES_NUMBER');
 export const updateIssueDate = stringAction('ISSUE_DATE');
 export const updateGender = stringAction('GENDER');
+export const updateApplicationId = stringAction('APPLICATION_ID');
 export const updateAddress = (v: IEvent) => ({type: 'LIVING_ADDRESS', field: v.field, value: v.value});
 export const updateLivingAddressSame = (v: IEvent) => ({type: 'LIVING_ADDRESS_SAME',  value: v});
