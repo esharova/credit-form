@@ -58,6 +58,6 @@ describe('Living addresss is used for input address of registration and real add
             const checkboxInput = checkBox.find('input[type="checkbox"]');
             checkboxInput.instance().checked = true;
             checkboxInput.simulate('change');
-            expect(store.getActions()).toEqual([{type: "LIVING_ADDRESS_SAME", value: true}]);
+            expect(store.getActions()).toEqual([{type: 'LIVING_ADDRESS_SAME', value: true}]);
         });
     });
