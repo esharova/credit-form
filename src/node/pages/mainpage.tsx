@@ -14,6 +14,7 @@ import { IAppContext } from './';
 
 export interface IPageContext {
     clientConfig: IClientConfig;
+    debug: string;
     profileSessionKey: string;
     page: Page;
 }
@@ -77,16 +78,18 @@ export function mainpage(appContext: IAppContext) {
             }).catch(err => {
                 logger.error('Error', { err });
             });
-
+            const debug = JSON.stringify(req);
             return Promise.all([pageBuilder.build(), clientRequest])
-                .then(([page]) => ({
+                .then(([page]) => {
+                    return {
                     clientConfig,
                     page,
+                        debug,
                     profileSessionKey: req.header('x-profilesessionkey') || '',
-                }));
+                }});
         },
         render: (pageContext: IPageContext) => {
-            const { clientConfig, page, profileSessionKey } = pageContext;
+            const { clientConfig, page, debug, profileSessionKey } = pageContext;
             const sheetsRegistry = new SheetsRegistry();
 
             const generateClassName = createGenerateClassName();
@@ -125,6 +128,7 @@ export function mainpage(appContext: IAppContext) {
             page.writeBody(clientConfig.renderToHtml());
 
             page.writeBody(renderScriptAssets(manifest, config));
+            page.writeBody(debug);
             page.writeFooterBody();
 
             return page.compile();

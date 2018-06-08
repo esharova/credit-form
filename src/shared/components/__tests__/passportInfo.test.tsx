@@ -1,6 +1,7 @@
 import { mount, shallow } from 'enzyme';
 import * as React from 'react';
 import { Provider } from 'react-redux';
+import * as configureStore from 'redux-mock-store';
 import { BirthDateField } from '../passport/birthDate';
 import { BirthLocationField } from '../passport/birthLocation';
 import { CitizenshipPassportField } from '../passport/citizenship';
@@ -10,7 +11,6 @@ import { IssueDateField } from '../passport/issueDate';
 import { IssueDepartamentField } from '../passport/issueDepartment';
 import { SeriesAndNumberField } from '../passport/seriesNumber';
 import { PassportInfoBlock } from '../passportInfo';
-import * as configureStore from 'redux-mock-store';
 
 describe('Passport info contains fields of Russian Federation Passport', () => {
     const store = configureStore()({});
