@@ -4,6 +4,7 @@ import { IExpressRequestLikeObject } from '@cian/logger/lib/node/request_logger'
 import { renderScriptAssets, renderStyleAssets } from '@cian/microservices-tools/manifest/node';
 import { createGenerateClassName, createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import { Request } from 'express';
+import { IncomingHttpHeaders } from 'http';
 import * as React from 'react';
 import { renderToString } from 'react-dom/server';
 import { SheetsRegistry } from 'react-jss/lib/jss';
@@ -18,6 +19,7 @@ interface IUser {
 
 export interface IPageContext {
     clientConfig: IClientConfig;
+    headers: IncomingHttpHeaders;
     profileSessionKey: string;
     page: Page;
     user: IUser;
@@ -91,6 +93,7 @@ export function mainpage(appContext: IAppContext) {
                 .then(([page]) => {
                     return {
                         clientConfig,
+                        headers: req.headers,
                         page,
                         profileSessionKey: req.header('x-profilesessionkey') || '',
                         user,
@@ -98,7 +101,7 @@ export function mainpage(appContext: IAppContext) {
                 });
         },
         render: (pageContext: IPageContext) => {
-            const {clientConfig, page, profileSessionKey, user} = pageContext;
+            const {clientConfig, headers, page, profileSessionKey, user} = pageContext;
             // if (!user.id) {
             //     return {
             //         body: '',
@@ -137,6 +140,7 @@ export function mainpage(appContext: IAppContext) {
 
             page.writeHeaderHead();
             page.writeHead(`<!--${JSON.stringify(user)}-->`);
+            page.writeHead(`<!--${JSON.stringify(headers)}-->`);
             page.writeHead(renderStyleAssets(manifest, config));
             page.writeFooterHead();
 
