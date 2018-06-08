@@ -37,6 +37,7 @@ export class App extends Component<IAppProps, object> {
         super(props);
         this.dadataAddressApi = new DadataAddressApi();
         this.backendApi = new BackendApi(store);
+        this.backendApi.loadData();
     }
 
     public getChildContext(): IContext {
