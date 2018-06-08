@@ -139,8 +139,6 @@ export function mainpage(appContext: IAppContext) {
             });
 
             page.writeHeaderHead();
-            page.writeHead(`<!--${JSON.stringify(user)}-->`);
-            page.writeHead(`<!--${JSON.stringify(headers)}-->`);
             page.writeHead(renderStyleAssets(manifest, config));
             page.writeFooterHead();
 
