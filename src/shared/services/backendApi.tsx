@@ -57,7 +57,7 @@ export class StateThrottling {
 
 export class BackendApi {
     private store: Store;
-    private backUrl = 'http://application-back.cfapps.io';
+    private backUrl = 'https://application-back.cfapps.io';
     private stateThrottling: StateThrottling = new StateThrottling();
 
     public constructor(store: Store) {
