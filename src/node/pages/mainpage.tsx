@@ -39,9 +39,9 @@ export function mainpage(appContext: IAppContext) {
         preparePageContext: (req:
                                  Request) => {
             let user: IUser = {};
-            const authHeader = req.headers['X-Authenticated'];
+            const authHeader = req.headers['x-authenticated'];
             if (!authHeader || authHeader !== '1') {
-                user.id = req.headers['X-Real-UserId'];
+                user.id = req.headers['x-real-userid'];
             }
             const client = httpApi.attachRequest(req);
 
@@ -102,15 +102,15 @@ export function mainpage(appContext: IAppContext) {
         },
         render: (pageContext: IPageContext) => {
             const {clientConfig, headers, page, profileSessionKey, user} = pageContext;
-            // if (!user.id) {
-            //     return {
-            //         body: '',
-            //         headers: [
-            //             ['Location', 'https://www.cian.ru/'],
-            //         ],
-            //         statusCode: 301,
-            //     };
-            // }
+            if (!user.id) {
+                return {
+                    body: '',
+                    headers: [
+                        ['Location', 'https://www.cian.ru/'],
+                    ],
+                    statusCode: 301,
+                };
+            }
             const sheetsRegistry = new SheetsRegistry();
 
             const generateClassName = createGenerateClassName();
