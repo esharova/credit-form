@@ -92,6 +92,10 @@ export const rootReducer = (state: IApplicationState = initialState, action) => 
                 address.isRegistrationAddressSameAsActual = action.value);
         case 'APPLICATION_ID':
             return state = {applicationId: action.value, ...state};
+        case 'APPLICATION':
+            state = {...state, applicationId: action.applicationId, application: action.application};
+
+            return state;
         default:
             return state;
     }

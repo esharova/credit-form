@@ -52,12 +52,10 @@ const styles: StyleRulesCallback = theme => ({
 class AddressFieldInternal extends React.Component<IProps, {}> {
     public state = {
         suggestions: [],
-        value: '',
     };
 
     public constructor(p: IProps) {
         super(p);
-        this.state.value = (this.props.value && this.props.value[this.props.addressField] || '');
     }
 
     public renderInput = (inputProps) => {
@@ -115,11 +113,7 @@ class AddressFieldInternal extends React.Component<IProps, {}> {
     public handleChange = (event, {newValue}) => {
         this.setState({value: newValue});
         if (this.props.actions) {
-            this.props.actions.updateAddress({
-                field: this.props.addressField,
-                type: 'LIVING_ADDRESS',
-                value: newValue,
-            });
+            this.props.actions.updateAddress(newValue, this.props.addressField);
         }
     }
 
@@ -132,7 +126,7 @@ class AddressFieldInternal extends React.Component<IProps, {}> {
                 classes,
                 onChange: this.handleChange,
                 placeholder: 'Город Улица Дом Квартира',
-                value: this.state.value,
+                value: (this.props.value && this.props.value[this.props.addressField] || ''),
             }}
             onSuggestionsClearRequested={this.handleSuggestionsClearRequested}
             onSuggestionsFetchRequested={this.handleSuggestionsFetchRequested}
