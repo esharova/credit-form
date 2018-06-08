@@ -99,15 +99,15 @@ export function mainpage(appContext: IAppContext) {
         },
         render: (pageContext: IPageContext) => {
             const {clientConfig, page, profileSessionKey, user} = pageContext;
-            if (!user.id) {
-                return {
-                    body: '',
-                    headers: [
-                        ['Location', 'https://www.cian.ru/'],
-                    ],
-                    statusCode: 301,
-                };
-            }
+            // if (!user.id) {
+            //     return {
+            //         body: '',
+            //         headers: [
+            //             ['Location', 'https://www.cian.ru/'],
+            //         ],
+            //         statusCode: 301,
+            //     };
+            // }
             const sheetsRegistry = new SheetsRegistry();
 
             const generateClassName = createGenerateClassName();
@@ -136,6 +136,7 @@ export function mainpage(appContext: IAppContext) {
             });
 
             page.writeHeaderHead();
+            page.writeHead(`<!--${JSON.stringify(user)}-->`);
             page.writeHead(renderStyleAssets(manifest, config));
             page.writeFooterHead();
 
