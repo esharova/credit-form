@@ -40,7 +40,7 @@ export function mainpage(appContext: IAppContext) {
                                  Request) => {
             let user: IUser = {};
             const authHeader = req.headers['x-authenticated'];
-            if (!authHeader || authHeader !== '1') {
+            if (authHeader && authHeader === '1') {
                 user.id = req.headers['x-real-userid'];
             }
             const client = httpApi.attachRequest(req);
