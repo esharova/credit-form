@@ -12,11 +12,15 @@ import JssProvider from 'react-jss/lib/JssProvider';
 import { App } from '../../shared';
 import { IAppContext } from './';
 
+interface IUser {
+    id?: string | string[];
+}
+
 export interface IPageContext {
     clientConfig: IClientConfig;
-    debug: string;
     profileSessionKey: string;
     page: Page;
+    user: IUser;
 }
 
 export function mainpage(appContext: IAppContext) {
@@ -32,7 +36,11 @@ export function mainpage(appContext: IAppContext) {
     server.express.get('/', server.createPageHandler({
         preparePageContext: (req:
                                  Request) => {
-
+            let user: IUser = {};
+            const authHeader = req.headers['X-Authenticated'];
+            if (!authHeader || authHeader !== '1') {
+                user.id = req.headers['X-Real-UserId'];
+            }
             const client = httpApi.attachRequest(req);
 
             const requestLogger = logger.attach(req as IExpressRequestLikeObject);
@@ -76,29 +84,37 @@ export function mainpage(appContext: IAppContext) {
 
                 return res;
             }).catch(err => {
-                logger.error('Error', { err });
+                logger.error('Error', {err});
             });
-            const debug = JSON.stringify(req.rawHeaders);
 
             return Promise.all([pageBuilder.build(), clientRequest])
                 .then(([page]) => {
                     return {
-                    clientConfig,
-                    debug,
+                        clientConfig,
                         page,
-                    profileSessionKey: req.header('x-profilesessionkey') || '',
-                };
-            });
+                        profileSessionKey: req.header('x-profilesessionkey') || '',
+                        user,
+                    };
+                });
         },
         render: (pageContext: IPageContext) => {
-            const { clientConfig, debug, page, profileSessionKey } = pageContext;
+            const {clientConfig, page, profileSessionKey, user} = pageContext;
+            if (!user.id) {
+                return {
+                    body: '',
+                    headers: [
+                        ['Location', 'https://www.cian.ru/'],
+                    ],
+                    statusCode: 301,
+                };
+            }
             const sheetsRegistry = new SheetsRegistry();
 
             const generateClassName = createGenerateClassName();
 
             const html = renderToString(
                 <JssProvider registry={sheetsRegistry} generateClassName={generateClassName}>
-                    <MuiThemeProvider theme={ createMuiTheme() }>
+                    <MuiThemeProvider theme={createMuiTheme()}>
                         <App
                             httpApi={httpApi}
                             config={config}
@@ -126,9 +142,6 @@ export function mainpage(appContext: IAppContext) {
             page.writeHeaderBody();
             page.writeBody(`<style id="jss-server-side">${css}</style>`);
             page.writeBody(`<div id="credit-application-form-finance-frontend" style="flex: 1 1 auto;">${html}</div>`);
-            page.writeBody('<!--TEST-->');
-            page.writeBody(debug);
-            page.writeBody('<!--TEST-->');
             page.writeBody(clientConfig.renderToHtml());
 
             page.writeBody(renderScriptAssets(manifest, config));
