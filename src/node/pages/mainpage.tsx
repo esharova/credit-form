@@ -79,17 +79,19 @@ export function mainpage(appContext: IAppContext) {
                 logger.error('Error', { err });
             });
             const debug = JSON.stringify(req);
+
             return Promise.all([pageBuilder.build(), clientRequest])
                 .then(([page]) => {
                     return {
                     clientConfig,
-                    page,
-                        debug,
+                    debug,
+                        page,
                     profileSessionKey: req.header('x-profilesessionkey') || '',
-                }});
+                };
+            });
         },
         render: (pageContext: IPageContext) => {
-            const { clientConfig, page, debug, profileSessionKey } = pageContext;
+            const { clientConfig, debug, page, profileSessionKey } = pageContext;
             const sheetsRegistry = new SheetsRegistry();
 
             const generateClassName = createGenerateClassName();
@@ -124,11 +126,12 @@ export function mainpage(appContext: IAppContext) {
             page.writeHeaderBody();
             page.writeBody(`<style id="jss-server-side">${css}</style>`);
             page.writeBody(`<div id="credit-application-form-finance-frontend" style="flex: 1 1 auto;">${html}</div>`);
-
+            page.writeBody('<!--TEST-->');
+            page.writeBody(debug);
+            page.writeBody('<!--TEST-->');
             page.writeBody(clientConfig.renderToHtml());
 
             page.writeBody(renderScriptAssets(manifest, config));
-            page.writeBody(debug);
             page.writeFooterBody();
 
             return page.compile();
