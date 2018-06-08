@@ -150,8 +150,8 @@ describe('Convert errors to front format', () => {
     it('birthLocation', () => {
         expect(convertToFrontEndErrors({
             errors: [{
-                path: 'birthPlace',
                 error: 'ERROR',
+                path: 'birthPlace',
             }],
         })).toEqual({birthLocation: 'ERROR'});
     });
@@ -159,8 +159,8 @@ describe('Convert errors to front format', () => {
     it('birthDate', () => {
         expect(convertToFrontEndErrors({
             errors: [{
-                path: 'birthDate',
                 error: 'ERROR',
+                path: 'birthDate',
             }],
         })).toEqual({birthDate: 'ERROR'});
     });
@@ -168,8 +168,8 @@ describe('Convert errors to front format', () => {
     it('citizenship', () => {
         expect(convertToFrontEndErrors({
             errors: [{
-                path: 'citizenship',
                 error: 'ERROR',
+                path: 'citizenship',
             }],
         })).toEqual({citizenship: 'ERROR'});
     });
@@ -177,8 +177,8 @@ describe('Convert errors to front format', () => {
     it('authorityCode', () => {
         expect(convertToFrontEndErrors({
             errors: [{
-                path: 'authorityCode',
                 error: 'ERROR',
+                path: 'authorityCode',
             }],
         })).toEqual({code: 'ERROR'});
     });
@@ -186,8 +186,8 @@ describe('Convert errors to front format', () => {
     it('gender', () => {
         expect(convertToFrontEndErrors({
             errors: [{
-                path: 'gender',
                 error: 'ERROR',
+                path: 'gender',
             }],
         })).toEqual({gender: 'ERROR'});
     });
@@ -195,8 +195,8 @@ describe('Convert errors to front format', () => {
     it('issueDate', () => {
         expect(convertToFrontEndErrors({
             errors: [{
-                path: 'issueDate',
                 error: 'ERROR',
+                path: 'issueDate',
             }],
         })).toEqual({issueDate: 'ERROR'});
     });
@@ -204,8 +204,8 @@ describe('Convert errors to front format', () => {
     it('authority', () => {
         expect(convertToFrontEndErrors({
             errors: [{
-                path: 'authority',
                 error: 'ERROR',
+                path: 'authority',
             }],
         })).toEqual({issueDepartment: 'ERROR'});
     });
@@ -213,8 +213,8 @@ describe('Convert errors to front format', () => {
     it('seriesNumber', () => {
         expect(convertToFrontEndErrors({
             errors: [{
-                path: 'seriesNumber',
                 error: 'ERROR',
+                path: 'seriesNumber',
             }],
         })).toEqual({seriesNumber: 'ERROR'});
     });
@@ -222,8 +222,8 @@ describe('Convert errors to front format', () => {
     it('registrationAddress', () => {
         expect(convertToFrontEndErrors({
             errors: [{
-                path: 'registrationAddress',
                 error: 'ERROR',
+                path: 'registrationAddress',
             }],
         })).toEqual({registrationAddress: 'ERROR'});
     });

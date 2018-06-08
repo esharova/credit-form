@@ -9,7 +9,7 @@ describe('Citizenship selector', () => {
         const store = mockStore({application: {passport: {citizenship: 'RF'}}});
         const field = mount(<CitizenshipPassportField store={store}/>);
         let formControl = field.find('FormControl');
-        expect(formControl.prop('style')).toEqual({'width': '100%'});
+        expect(formControl.prop('style')).toEqual({width: '100%'});
         expect(formControl).toHaveLength(1);
         expect(formControl.find('InputLabel[htmlFor="citizenship"]').text()).toBe('Гражданство');
         expect(formControl.find('Select[id="citizenship"]').prop('value')).toBe('RF');

@@ -10,7 +10,7 @@ describe('Birth location input', () => {
         const field = mount(<BirthLocationField store={store}/>);
         let find = field.find('TextField');
         expect(find.prop('label')).toBe('Место рождения');
-        expect(find.prop('style')).toEqual({'width': '100%'});
+        expect(find.prop('style')).toEqual({width: '100%'});
         expect(field.find('input').prop('value')).toEqual('location');
     });
 

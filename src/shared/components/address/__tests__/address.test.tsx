@@ -13,9 +13,9 @@ describe('Field for input addresses', () => {
         expect(w.find('input').prop('value')).toBe('address');
     });
 
-    it("handle error", () => {
-        const store = mockStore({errors: {addr: "ERROR"}});
-        const field = mount(<AddressField label="LABEL" addressField="addr"  store={store}/>);
+    it('handle error', () => {
+        const store = mockStore({errors: {addr: 'ERROR'}});
+        const field = mount(<AddressField label="LABEL" addressField="addr" store={store}/>);
         expect(field.find('TextField').prop('error')).toEqual(true);
         expect(field.find('FormHelperText').text()).toEqual('ERROR');
     });

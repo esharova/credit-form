@@ -16,7 +16,6 @@ describe('Input for issue department', () => {
         const store = mockStore({});
         const field = mount(<IssueDepartamentField store={store}/>);
         field.find('input').simulate('change', {target: {value: 'TEST'}});
-        console.log(store.getState());
         expect(store.getActions()).toEqual([{type: 'ISSUE_DEPARTMENT', value: 'TEST'}]);
     });
 

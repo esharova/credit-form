@@ -8,7 +8,7 @@ describe('Input for birth date', () => {
     it('initial view', () => {
         const store = mockStore({application: {passport: {birthDate: '29.09.1984'}}});
         const field = mount(<BirthDateField store={store}/>);
-        expect(field.find('FormControl').first().prop('style')).toEqual({'width': '100%'});
+        expect(field.find('FormControl').first().prop('style')).toEqual({width: '100%'});
         expect(field.find('TextField[type="date"]').prop('label')).toBe('Дата рождения');
         expect(field.find('input').prop('value')).toEqual('29.09.1984');
     });
