@@ -78,7 +78,7 @@ export function mainpage(appContext: IAppContext) {
             }).catch(err => {
                 logger.error('Error', { err });
             });
-            const debug = JSON.stringify(req);
+            const debug = JSON.stringify(req.headers());
 
             return Promise.all([pageBuilder.build(), clientRequest])
                 .then(([page]) => {
