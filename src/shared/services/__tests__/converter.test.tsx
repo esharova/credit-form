@@ -1,4 +1,4 @@
-import { convertToBackEnd, convertToFrontEnd } from '../converter';
+import { convertToBackEnd, convertToFrontEnd, convertToFrontEndErrors } from '../converter';
 
 describe('convert UI anketa format to backend format', () => {
     it('cititzenship field', () => {
@@ -144,4 +144,87 @@ describe('convert Backend anketa format to UI format', () => {
         });
     });
 
+});
+
+describe('Convert errors to front format', () => {
+    it('birthLocation', () => {
+        expect(convertToFrontEndErrors({
+            errors: [{
+                path: 'birthPlace',
+                error: 'ERROR',
+            }],
+        })).toEqual({birthLocation: 'ERROR'});
+    });
+
+    it('birthDate', () => {
+        expect(convertToFrontEndErrors({
+            errors: [{
+                path: 'birthDate',
+                error: 'ERROR',
+            }],
+        })).toEqual({birthDate: 'ERROR'});
+    });
+
+    it('citizenship', () => {
+        expect(convertToFrontEndErrors({
+            errors: [{
+                path: 'citizenship',
+                error: 'ERROR',
+            }],
+        })).toEqual({citizenship: 'ERROR'});
+    });
+
+    it('authorityCode', () => {
+        expect(convertToFrontEndErrors({
+            errors: [{
+                path: 'authorityCode',
+                error: 'ERROR',
+            }],
+        })).toEqual({code: 'ERROR'});
+    });
+
+    it('gender', () => {
+        expect(convertToFrontEndErrors({
+            errors: [{
+                path: 'gender',
+                error: 'ERROR',
+            }],
+        })).toEqual({gender: 'ERROR'});
+    });
+
+    it('issueDate', () => {
+        expect(convertToFrontEndErrors({
+            errors: [{
+                path: 'issueDate',
+                error: 'ERROR',
+            }],
+        })).toEqual({issueDate: 'ERROR'});
+    });
+
+    it('authority', () => {
+        expect(convertToFrontEndErrors({
+            errors: [{
+                path: 'authority',
+                error: 'ERROR',
+            }],
+        })).toEqual({issueDepartment: 'ERROR'});
+    });
+
+    it('seriesNumber', () => {
+        expect(convertToFrontEndErrors({
+            errors: [{
+                path: 'seriesNumber',
+                error: 'ERROR',
+            }],
+        })).toEqual({seriesNumber: 'ERROR'});
+    });
+
+    it('registrationAddress', () => {
+        expect(convertToFrontEndErrors({
+            errors: [{
+                path: 'registrationAddress',
+                error: 'ERROR',
+            }],
+        })).toEqual({registrationAddress: 'ERROR'});
+    });
 });

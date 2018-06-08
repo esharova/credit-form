@@ -22,9 +22,21 @@ export interface IApplication {
     passport?: IPassport;
 }
 
+export interface IApplicationErrors {
+    gender?: string;
+    seriesNumber?: string;
+    issueDepartment?: string;
+    issueDate?: string;
+    citizenship?: string;
+    code?: string;
+    birthDate?: string;
+    birthLocation?: string;
+}
+
 export interface IApplicationState {
     application?: IApplication;
     applicationId?: string;
+    errors?: IApplicationErrors;
 }
 
 const initialState: IApplicationState = {
@@ -93,7 +105,16 @@ export const rootReducer = (state: IApplicationState = initialState, action) => 
         case 'APPLICATION_ID':
             return state = {applicationId: action.value, ...state};
         case 'APPLICATION':
-            state = {...state, applicationId: action.applicationId, application: action.application};
+            state = {
+                ...state,
+                application: action.application,
+                applicationId: action.applicationId,
+                errors: action.errors,
+            };
+
+            return state;
+        case 'ERRORS':
+            state = {...state, errors: action.errors};
 
             return state;
         default:

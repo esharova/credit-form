@@ -27,4 +27,11 @@ describe('Input for series and number', () => {
         expect(store.getActions()).toEqual([{type: 'SERIES_NUMBER', value: '1212qwe'}]);
         expect(field.find('t[value="1212"]')).toHaveLength(0);
     });
+
+    it('handle error', () => {
+        const store = mockStore({errors: {seriesNumber: 'ERROR'}});
+        const field = mount(<SeriesAndNumberField store={store}/>);
+        expect(field.find('FormControl').prop('error')).toEqual(true);
+        expect(field.find('FormHelperText').text()).toEqual('ERROR');
+    });
 });

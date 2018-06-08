@@ -1,4 +1,4 @@
-import { IApplication } from './index';
+import { IApplication, IApplicationErrors } from './index';
 
 const stringAction = (name: string) => (v?: string) => ({type: name, value: v});
 
@@ -13,5 +13,7 @@ export const updateGender = stringAction('GENDER');
 export const updateApplicationId = stringAction('APPLICATION_ID');
 export const updateAddress = (value: string, field?: string) => ({type: 'LIVING_ADDRESS', field, value});
 export const updateLivingAddressSame = (value: boolean) => ({type: 'LIVING_ADDRESS_SAME', value});
-export const updateApplicationAndId = (applicationId?: string, application?: IApplication) =>
-    ({type: 'APPLICATION', applicationId, application });
+export const updateErrorApplicationAndId = (
+    applicationId?: string, application?: IApplication, errors?: IApplicationErrors) =>
+    ({type: 'APPLICATION', applicationId, application, errors});
+export const updateErrors = (errors: IApplicationErrors) => ({type: 'ERRORS', errors});

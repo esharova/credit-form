@@ -20,4 +20,11 @@ describe('Input for issue date', () => {
         field.find('input').simulate('change', {target: {value: '01012000'}});
         expect(store.getActions()).toEqual([{type: 'ISSUE_DATE', value: '01012000'}]);
     });
+
+    it('error processing', () => {
+        const store = mockStore({errors: {issueDate: 'ERROR'}});
+        const field = mount(<IssueDateField store={store}/>);
+        expect(field.find('TextField').prop('error')).toEqual(true);
+        expect(field.find('FormHelperText').text()).toEqual('ERROR');
+    });
 });

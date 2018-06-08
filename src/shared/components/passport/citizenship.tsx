@@ -1,3 +1,4 @@
+import { FormHelperText } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -9,7 +10,10 @@ import { IApplicationState } from '../../reducers';
 import * as actionCreators from '../../reducers/actions';
 
 function mapStateToProps(state: IApplicationState) {
-    return {value: state.application && state.application.passport && state.application.passport.citizenship || ''};
+    return {
+        error: state.errors && state.errors.citizenship,
+        value: state.application && state.application.passport && state.application.passport.citizenship || '',
+    };
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {
@@ -17,6 +21,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
 }
 
 interface IProps {
+    error?: string;
     value?: string;
     actions?: ActionCreatorsMapObject;
 }
@@ -24,7 +29,9 @@ interface IProps {
 @connect(mapStateToProps, mapDispatchToProps)
 export class CitizenshipPassportField extends React.Component<IProps, {}> {
     public render(): React.ReactNode {
-        return <FormControl style={{width: '100%'}}>
+        const helperText = this.props.error ? <FormHelperText>{this.props.error}</FormHelperText> : '';
+
+        return <FormControl error={!!this.props.error} style={{width: '100%'}}>
             <InputLabel htmlFor="citizenship">Гражданство</InputLabel>
             <Select id="citizenship"
                     onChange={e => this.props.actions && this.props.actions.updateCitizenship(e.target.value)}
@@ -33,6 +40,7 @@ export class CitizenshipPassportField extends React.Component<IProps, {}> {
                 <MenuItem value="RF">Российская Федерация</MenuItem>
                 <MenuItem value="OTHER">Иное</MenuItem>
             </Select>
+            {helperText}
         </FormControl>;
     }
 }

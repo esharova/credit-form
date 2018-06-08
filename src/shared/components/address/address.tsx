@@ -5,12 +5,13 @@ import * as React from 'react';
 import * as Autosuggest from 'react-autosuggest';
 import { connect } from 'react-redux';
 import { ActionCreatorsMapObject, bindActionCreators, Dispatch } from 'redux';
-import { IApplicationState, ILivingAddress } from '../../reducers';
+import { IApplicationErrors, IApplicationState, ILivingAddress } from '../../reducers';
 import * as actionCreators from '../../reducers/actions';
 import { DadataAddressApi } from '../../services/dadataAddressApi';
 
 interface IProps extends WithStyles<string> {
     dadataAddressApi: DadataAddressApi;
+    errors?: IApplicationErrors;
     label: string;
     uniqueId: string;
     addressField: string;
@@ -19,7 +20,10 @@ interface IProps extends WithStyles<string> {
 }
 
 function mapStateToProps(state: IApplicationState) {
-    return {value: state.application && state.application.address || {}};
+    return {
+        errors: state.errors,
+        value: state.application && state.application.address || {},
+    };
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {
@@ -62,16 +66,17 @@ class AddressFieldInternal extends React.Component<IProps, {}> {
         const {classes, ref, ...other} = inputProps;
 
         return (
-            <TextField
-                label={this.props.label}
-                fullWidth
-                InputProps={{
-                    classes: {
-                        input: classes.input,
-                    },
-                    inputRef: ref,
-                    ...other,
-                }}
+            <TextField error={!!(this.props.errors && this.props.errors[this.props.addressField])}
+                       helperText={this.props.errors && this.props.errors[this.props.addressField]}
+                       label={this.props.label}
+                       fullWidth
+                       InputProps={{
+                           classes: {
+                               input: classes.input,
+                           },
+                           inputRef: ref,
+                           ...other,
+                       }}
             />
         );
     }

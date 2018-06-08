@@ -6,7 +6,10 @@ import { IApplicationState } from '../../reducers';
 import * as actionCreators from '../../reducers/actions';
 
 function mapStateToProps(state: IApplicationState) {
-    return {value: state.application && state.application.passport && state.application.passport.birthDate || ''};
+    return {
+        error: state.errors && state.errors.birthDate,
+        value: state.application && state.application.passport && state.application.passport.birthDate || '',
+    };
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {
@@ -14,8 +17,9 @@ function mapDispatchToProps(dispatch: Dispatch) {
 }
 
 interface IProps {
-    value?: string;
     actions?: ActionCreatorsMapObject;
+    error?: string;
+    value?: string;
 }
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -23,6 +27,8 @@ export class BirthDateField extends React.Component<IProps, {}> {
 
     public render(): React.ReactNode {
         return <TextField id="birth-date-input" style={{width: '100%'}} type="date" label="Дата рождения"
+                          error={!!this.props.error}
+                          helperText={this.props.error}
                           onChange={e => this.props.actions && this.props.actions.updateBirthDate(e.target.value)}
                           InputLabelProps={{
                               shrink: true,

@@ -6,12 +6,16 @@ import { IApplicationState } from '../../reducers';
 import * as actionCreators from '../../reducers/actions';
 
 interface IProps {
+    error?: string;
     value?: string;
     actions?: ActionCreatorsMapObject;
 }
 
 function mapStateToProps(state: IApplicationState) {
-    return {value: state.application && state.application.passport && state.application.passport.issueDate || ''};
+    return {
+        error: state.errors && state.errors.issueDate,
+        value: state.application && state.application.passport && state.application.passport.issueDate || '',
+    };
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {
@@ -24,9 +28,11 @@ export class IssueDateField extends React.Component<IProps, {}> {
     public render(): React.ReactNode {
         return <FormControl style={{width: '100%'}}>
             <TextField id="issue-date-input" label="Когда выдан" type="date"
+                       error={!!this.props.error}
+                       helperText={this.props.error}
                        InputLabelProps={{
-                            shrink: true,
-                        }}
+                           shrink: true,
+                       }}
                        onChange={e => this.props.actions && this.props.actions.updateIssueDate(e.target.value)}
                        value={this.props.value}/>
         </FormControl>;

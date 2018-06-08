@@ -41,4 +41,11 @@ describe('Gender selector', () => {
         field.find('li[data-value="FEMALE"]').simulate('click');
         expect(store.getActions()).toEqual([{type: 'GENDER', value: 'FEMALE'}]);
     });
+
+    it('error processing', () => {
+        const store = mockStore({errors: {gender: 'ERROR'}});
+        const field = mount(<GenderField store={store}/>);
+        expect(field.find('FormControl').prop('error')).toEqual(true);
+        expect(field.find('FormHelperText').text()).toEqual('ERROR');
+    });
 });

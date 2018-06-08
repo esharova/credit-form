@@ -1,11 +1,15 @@
 import Axios from 'axios';
 import { Store } from 'redux';
-import { IApplication, IApplicationState } from '../reducers';
-import { updateApplicationAndId, updateApplicationId } from '../reducers/actions';
-import { convertToBackEnd, convertToFrontEnd } from './converter';
+import { IApplication, IApplicationErrors, IApplicationState } from '../reducers';
+import { updateApplicationId, updateErrorApplicationAndId, updateErrors } from '../reducers/actions';
+import { convertToBackEnd, convertToFrontEnd, convertToFrontEndErrors } from './converter';
 
 export interface IApplicationResponse {
-    application: IBackApplication;
+    application?: IBackApplication;
+    errors?: Array<{
+        path: string;
+        error: string;
+    }>;
 }
 
 export interface IBackApplication {
@@ -73,7 +77,11 @@ export class BackendApi {
                     if (state.applicationId) {
                         Axios.post(`${this.backUrl}/api/applications/${state.applicationId}`,
                             backApplication)
-                            .then(r => (this.stateThrottling.finished()))
+                            .then((r) => {
+                                const response: IApplicationResponse = r.data;
+                                store.dispatch(updateErrors(convertToFrontEndErrors(response)));
+                                this.stateThrottling.finished();
+                            })
                             .catch(e => (this.stateThrottling.finished()))
                         ;
                     } else {
@@ -104,11 +112,13 @@ export class BackendApi {
 
     private loadApplication(applicationId?: string) {
         Axios.get(`${this.backUrl}/api/applications/${applicationId}`).then(r => r.data)
-            .then( (applicationResponse: IApplicationResponse) => {
+            .then((applicationResponse: IApplicationResponse) => {
+                const appId = applicationResponse.application && applicationResponse.application.applicationId;
                 const application: IApplication = convertToFrontEnd(applicationResponse);
-                this.store.dispatch(updateApplicationAndId(applicationResponse.application.applicationId, application));
+                const errors: IApplicationErrors = convertToFrontEndErrors(applicationResponse);
+                this.store.dispatch(updateErrorApplicationAndId(appId, application, errors));
             })
-            .catch( () => {
+            .catch(() => {
 
             });
     }

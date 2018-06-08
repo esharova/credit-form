@@ -1,4 +1,4 @@
-import { IApplication } from '../reducers';
+import { IApplication, IApplicationErrors } from '../reducers';
 import { IApplicationResponse, IBackApplicationRequest } from './backendApi';
 
 export function convertToBackEnd(input?: IApplication): IBackApplicationRequest {
@@ -83,22 +83,22 @@ export function convertToFrontEnd(input?: IApplicationResponse): IApplication {
             if (input.application.authority) {
                 front.passport.issueDepartment = input.application.authority;
             }
-        }
-        if (input.application.registrationAddress) {
-            front.address.registrationAddress = input.application.registrationAddress;
-            front.address.isRegistrationAddressSameAsActual = true;
-        }
-        if (input.application.livingAddress) {
             if (input.application.registrationAddress) {
-                if (input.application.livingAddress === input.application.registrationAddress) {
-                    front.address.isRegistrationAddressSameAsActual = true;
-                } else {
-                    front.address.isRegistrationAddressSameAsActual = false;
-                    front.address.actualAddress = input.application.livingAddress;
-                }
-            } else {
-                front.address.registrationAddress = input.application.livingAddress;
+                front.address.registrationAddress = input.application.registrationAddress;
                 front.address.isRegistrationAddressSameAsActual = true;
+            }
+            if (input.application.livingAddress) {
+                if (input.application.registrationAddress) {
+                    if (input.application.livingAddress === input.application.registrationAddress) {
+                        front.address.isRegistrationAddressSameAsActual = true;
+                    } else {
+                        front.address.isRegistrationAddressSameAsActual = false;
+                        front.address.actualAddress = input.application.livingAddress;
+                    }
+                } else {
+                    front.address.registrationAddress = input.application.livingAddress;
+                    front.address.isRegistrationAddressSameAsActual = true;
+                }
             }
         }
     }
@@ -110,4 +110,28 @@ export function convertToFrontEnd(input?: IApplicationResponse): IApplication {
     }
 
     return front;
+}
+
+export function convertToFrontEndErrors(input: IApplicationResponse): IApplicationErrors {
+    const errors: IApplicationErrors = {};
+    if (input.errors) {
+        input.errors.forEach((errorItem) => {
+            switch (errorItem.path) {
+                case 'birthPlace':
+                    errors.birthLocation = errorItem.error;
+                    break;
+                case 'authorityCode':
+                    errors.code = errorItem.error;
+                    break;
+                case 'authority':
+                    errors.issueDepartment = errorItem.error;
+                    break;
+                default:
+                    errors[errorItem.path] = errorItem.error;
+                    break;
+            }
+        });
+    }
+
+    return errors;
 }
