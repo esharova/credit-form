@@ -20,7 +20,7 @@ describe('Passport info contains fields of Russian Federation Passport', () => {
         let card = wrapper.find('Card');
         expect(card).toHaveLength(1);
         let typography = card.find('Typography[color=\"textSecondary\"]');
-        expect(typography.text()).toBe('Мульти-Паспорт');
+        expect(typography.text()).toBe('Паспорт');
         expect(typography.prop('style')).toEqual({marginBottom: '8px'});
     });
     it('Passport fields is layouted in grid', () => {

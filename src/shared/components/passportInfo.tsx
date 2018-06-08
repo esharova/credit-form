@@ -24,7 +24,7 @@ export class PassportInfoBlock extends Component {
             >
                 <CardContent>
                     <Typography style={{marginBottom: '8px'}} variant="headline"
-                                color="textSecondary">Мульти-Паспорт</Typography>
+                                color="textSecondary">Паспорт</Typography>
                     <Grid container spacing={8}>
                         <Grid item xs={12} id="citizenship-field">
                             <CitizenshipPassportField/>
