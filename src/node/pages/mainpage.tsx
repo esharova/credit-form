@@ -106,7 +106,8 @@ export function mainpage(appContext: IAppContext) {
                 return {
                     body: '',
                     headers: [
-                        ['Location', 'https://www.cian.ru/'],
+                        ['Location',
+                        'https://www.cian.ru/authenticate/?back_url=https%3A%2F%2Fwww.cian.ru%2Fcian-finance%2Fanketa'],
                     ],
                     statusCode: 302,
                 };
