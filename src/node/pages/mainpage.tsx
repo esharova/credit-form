@@ -101,14 +101,14 @@ export function mainpage(appContext: IAppContext) {
                 });
         },
         render: (pageContext: IPageContext) => {
-            const {clientConfig, headers, page, profileSessionKey, user} = pageContext;
+            const {clientConfig, page, profileSessionKey, user} = pageContext;
             if (!user.id) {
                 return {
                     body: '',
                     headers: [
                         ['Location', 'https://www.cian.ru/'],
                     ],
-                    statusCode: 301,
+                    statusCode: 302,
                 };
             }
             const sheetsRegistry = new SheetsRegistry();

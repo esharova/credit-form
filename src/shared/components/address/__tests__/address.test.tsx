@@ -7,10 +7,10 @@ describe('Field for input addresses', () => {
     const mockStore = configureStore();
     it('initial view', () => {
         const store = mockStore({application: {address: {addr: 'address'}}});
-        const w = mount(<AddressField label="LABEL" addressField="addr" store={store}/>);
+        const w = mount(<AddressField label="LABEL" addressField="addr" uniqueId="20" store={store}/>);
         expect(w.find('TextField[label=\"LABEL\"]')).toHaveLength(1);
         expect(w.find('TextField[fullWidth=true]')).toHaveLength(1);
-        expect(w.find('input').prop('value')).toBe('address');
+        expect(w.find('input[id="address-input-20"]').prop('value')).toBe('address');
     });
 
     it('handle error', () => {

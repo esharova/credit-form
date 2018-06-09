@@ -74,6 +74,7 @@ class AddressFieldInternal extends React.Component<IProps, {}> {
                            classes: {
                                input: classes.input,
                            },
+                           id: 'address-input-' + this.props.uniqueId,
                            inputRef: ref,
                            ...other,
                        }}
