@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { withStyles} from '@material-ui/core/styles';
 import { Navigation } from '../navigation/navigation';
 
 const styles = {
@@ -8,10 +9,12 @@ const styles = {
     },
 };
 
+@withStyles(styles)
 export class PageLayout extends React.Component<any, {}> {
     render() {
+        const { classes } = this.props;
         return (
-            <div>
+            <div className={ classes.root }>
                 { this.renderProgressBar() }
                 { this.renderContent() }
                 { this.renderNavigationBar() }

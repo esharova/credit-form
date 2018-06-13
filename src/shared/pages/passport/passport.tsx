@@ -11,8 +11,8 @@ interface IProps {
 }
 
 export class PassportPage extends PageLayout<IProps, {}> {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
     }
 
     public renderContent() {
