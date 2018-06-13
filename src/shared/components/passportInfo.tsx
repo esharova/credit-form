@@ -16,10 +16,8 @@ export class PassportInfoBlock extends Component {
         return (
             <Card
                 style={{
-                    margin: 'auto',
                     marginTop: '3em',
                     padding: '15px',
-                    width: '800px',
                 }}
             >
                 <CardContent>

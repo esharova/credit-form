@@ -104,16 +104,16 @@ export function mainpage(appContext: IAppContext) {
         },
         render: (pageContext: IPageContext) => {
             const {clientConfig, page, profileSessionKey, user} = pageContext;
-            if (!user.id) {
-                return {
-                    body: '',
-                    headers: [
-                        ['Location',
-                        'https://www.cian.ru/authenticate/?back_url=https%3A%2F%2Fwww.cian.ru%2Fcian-finance%2Fanketa'],
-                    ],
-                    statusCode: 302,
-                };
-            }
+            // if (!user.id) {
+            //     return {
+            //         body: '',
+            //         headers: [
+            //             ['Location',
+            //             'https://www.cian.ru/authenticate/?back_url=https%3A%2F%2Fwww.cian.ru%2Fcian-finance%2Fanketa'],
+            //         ],
+            //         statusCode: 302,
+            //     };
+            // }
             const sheetsRegistry = new SheetsRegistry();
 
             const generateClassName = createGenerateClassName();

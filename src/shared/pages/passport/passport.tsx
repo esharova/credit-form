@@ -1,25 +1,22 @@
 import * as React from 'react';
+
 import { BackendApi } from '../../services/backendApi';
 import { DadataAddressApi } from '../../services/dadataAddressApi';
 import { LivingAddressBlock } from '../../components/livingAddress';
 import { PassportInfoBlock } from '../../components/passportInfo';
-import { PageLayout } from '../../components/page-layout/page-layout';
 
-interface IProps {
+interface IPassportPageProps {
     dadataAddressApi: DadataAddressApi;
     backendApi: BackendApi;
 }
 
-export class PassportPage extends PageLayout<IProps, {}> {
-    constructor(props) {
-        super(props);
-    }
-
-    public renderContent() {
-
-        return <div>
-            <PassportInfoBlock />
-            <LivingAddressBlock dadataAddressApi={this.props.dadataAddressApi} backendApi={this.props.backendApi} />
-        </div>;
+export class PassportPage extends React.Component<IPassportPageProps, {}> {
+    render() {
+        return (
+            <div>
+                <PassportInfoBlock />
+                <LivingAddressBlock dadataAddressApi={this.props.dadataAddressApi} backendApi={this.props.backendApi} />
+            </div>
+        );
     }
 }

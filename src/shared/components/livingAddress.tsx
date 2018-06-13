@@ -40,10 +40,8 @@ export class LivingAddressBlock extends React.Component<IProps, {}> {
                                               label="Адрес проживания" addressField="actualAddress"/></Grid>;
 
         return <Card style={{
-            margin: 'auto',
             marginTop: '3em',
-            padding: '15px',
-            width: '800px',
+            padding: '15px'
         }}
         >
             <CardContent>
