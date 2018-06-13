@@ -1,11 +1,15 @@
 import { IConfigApi } from '@cian/config/shared';
 import { IHttpApi } from '@cian/http-api/shared/http';
 import { ILogger } from '@cian/microservices-tools/logger/shared';
+
 import * as PropTypes from 'prop-types';
 import * as React from 'react';
 import { Component } from 'react';
 import { Provider } from 'react-redux';
-import { FirstApplicationPage } from './components/firstPage';
+import { Switch, Route } from 'react-router-dom';
+
+
+import { PassportPage } from './pages/passport/passport';
 import { store } from './reducers';
 import { BackendApi } from './services/backendApi';
 import { DadataAddressApi } from './services/dadataAddressApi';
@@ -20,6 +24,7 @@ export interface IContext {
 
 export interface IAppProps extends IContext {
 }
+
 
 export class App extends Component<IAppProps, object> {
 
@@ -58,12 +63,20 @@ export class App extends Component<IAppProps, object> {
     }
 
     public render() {
-
         return (
             <Provider store={store}>
-                <FirstApplicationPage
-                    dadataAddressApi={this.dadataAddressApi} backendApi={this.backendApi}
-                />
+                <Switch>
+                    <Route exact={ true } path='/passport' render={ props => (
+                        <PassportPage
+                            dadataAddressApi={this.dadataAddressApi} backendApi={this.backendApi} { ...props }
+                        />
+                    )}
+                    />
+                    <Route path='/' render={() => (
+                        <span>main page</span>
+                    )}
+                    />
+                </Switch>
             </Provider>
         );
     }

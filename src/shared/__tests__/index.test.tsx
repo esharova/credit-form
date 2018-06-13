@@ -1,7 +1,7 @@
 import * as React from "react";
 import {App} from "../index";
 import {shallow} from "enzyme";
-import {FirstApplicationPage} from "../components/firstPage";
+import {FirstApplicationPage} from "../pages/passport/passport";
 
 describe('Micro service for rendering credit application', () => {
 

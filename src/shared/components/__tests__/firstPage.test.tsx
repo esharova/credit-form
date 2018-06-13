@@ -1,6 +1,6 @@
 import { shallow } from 'enzyme';
 import * as React from 'react';
-import { FirstApplicationPage } from '../firstPage';
+import { FirstApplicationPage } from '../../pages/passport/passport';
 import { LivingAddressBlock } from '../livingAddress';
 import { PassportInfoBlock } from '../passportInfo';
 

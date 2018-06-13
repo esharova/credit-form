@@ -5,6 +5,7 @@ import { configureSentry } from '@cian/microservices-tools/sentry/browser';
 import { clientTelemetry } from '@cian/microservices-tools/telemetry/browser';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
 import { App } from '../shared/index';
 import { createConfigSchema } from '../shared/schema';
 import { createReactLogger } from './utils/browser_error_writer';
@@ -61,12 +62,15 @@ config.load()
           }
 
           ReactDOM.hydrate(
-              <App
-                  httpApi={httpApi}
-                  config={config}
-                  logger={logger}
-                  reactErrorLogger={reactErrorLogger}
-              />,
+      <BrowserRouter>
+                  <App
+                      httpApi={httpApi}
+                      config={config}
+                      logger={logger}
+                      reactErrorLogger={reactErrorLogger}
+                  />
+              </BrowserRouter>
+              ,
               rootElement,
               () => {
               },
